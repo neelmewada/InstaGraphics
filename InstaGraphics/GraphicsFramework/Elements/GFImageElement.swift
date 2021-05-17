@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GFImageElement: GFElement {
+public class GFImageElement: GFElement {
     // MARK: - Lifecycle
     
     override init(canvas: GFCanvas) {
@@ -19,8 +19,12 @@ class GFImageElement: GFElement {
     
     // MARK: - Properties
     
-    override var type: GFElementType {
+    public override var type: GFElementType {
         return .image
+    }
+    
+    public override var resizeMode: GFResizeMode {
+        return .maintainAspectRatio
     }
     
     // MARK: - Configuration
@@ -29,7 +33,7 @@ class GFImageElement: GFElement {
         
     }
     
-    func configure() {
+    public func configure() {
         
     }
     

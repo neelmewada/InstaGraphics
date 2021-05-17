@@ -38,6 +38,10 @@ public class GFElement: GFView {
         return .none
     }
     
+    public var resizeMode: GFResizeMode {
+        return .defaultMode
+    }
+    
     // MARK: - Methods
     
     override func layoutInitialize() {

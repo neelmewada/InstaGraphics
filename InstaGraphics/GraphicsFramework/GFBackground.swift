@@ -25,14 +25,14 @@ public class GFBackground: GFView {
     private var gradientLayer: CAGradientLayer? = nil
     private var imageView: UIImageView? = nil
     
-    public var type: GFBackgroundType = .clear
+    public private(set) var type: GFBackgroundType = .clear
     public var backgroundContentMode: ContentMode = .scaleAspectFill {
         didSet {
             updateContentMode()
         }
     }
     
-    public var color: UIColor {
+    public private(set) var color: UIColor {
         get {
             if type != .color {
                 return .clear
@@ -48,8 +48,13 @@ public class GFBackground: GFView {
         }
     }
     
-    public var gradient: GFGradient = .empty {
+    public private(set) var gradient: GFGradient = .empty {
         didSet {
+            if gradient.isEmpty {
+                gradientLayer?.removeFromSuperlayer()
+                gradientLayer = nil
+                return
+            }
             if type != .gradient {
                 return
             }
@@ -63,7 +68,7 @@ public class GFBackground: GFView {
         }
     }
     
-    public var image: GFImageInfo = .empty {
+    public private(set) var image: GFImageInfo = .empty {
         didSet {
             updateImageView()
         }
@@ -81,6 +86,9 @@ public class GFBackground: GFView {
         case .image:
             image = info.image
         case .clear:
+            image = .empty
+            color = .clear
+            gradient = .empty
             break
         }
     }
@@ -102,17 +110,17 @@ public class GFBackground: GFView {
     
     func configureImage(fromAsset named: String, contentMode: ContentMode = .scaleAspectFill) {
         self.type = .image
-        self.image = .create(withMode: .asset, urls: [named])
+        self.image = .create(withMode: .asset, urls: [GFImageUrl(url: named, imageSize: .zero)])
         self.contentMode = contentMode
     }
     
-    func configureImage(fromLocalUrls urls: [String], contentMode: ContentMode = .scaleAspectFill) {
+    func configureImage(fromLocalUrls urls: [GFImageUrl], contentMode: ContentMode = .scaleAspectFill) {
         self.type = .image
         self.image = .create(withMode: .local, urls: urls)
         self.contentMode = contentMode
     }
     
-    func configureImage(fromRemoteUrls urls: [String], contentMode: ContentMode = .scaleAspectFill) {
+    func configureImage(fromRemoteUrls urls: [GFImageUrl], contentMode: ContentMode = .scaleAspectFill) {
         self.type = .image
         self.image = .create(withMode: .remote, urls: urls)
         self.contentMode = contentMode
@@ -134,8 +142,9 @@ public class GFBackground: GFView {
     }
     
     private func updateImageView() {
-        if image.urls.count == 0 {
+        if image.urls.count == 0 { // Reset to Clear color if no image is empty
             imageView?.removeFromSuperview()
+            imageView = nil
             return
         }
         
@@ -149,7 +158,7 @@ public class GFBackground: GFView {
         
         switch image.mode {
         case .asset:
-            imageView!.image = UIImage(named: image.urls.first!)
+            imageView!.image = UIImage(named: image.urls.first!.url)
         case .local:
             break
         case .remote:
@@ -173,6 +182,10 @@ public class GFBackground: GFView {
     
     override func prepareForRender() {
         super.prepareForRender()
+    }
+    
+    override func unprepareAfterRender() {
+        super.unprepareAfterRender()
     }
 }
 

@@ -10,14 +10,14 @@ import UIKit
 
 /// A codable gradient data structure.
 public struct GFGradient: Codable {
-    var colors: [GFColor] = []
-    var locations: [CGFloat] = []
+    public var colors: [GFColor] = []
+    public var locations: [CGFloat] = []
     
     public static var empty: GFGradient {
         return GFGradient()
     }
     
-    var cgColors: [CGColor] {
+    public var cgColors: [CGColor] {
         var cgColors = [CGColor]()
         for color in colors {
             cgColors.append(color.cgColor)
@@ -25,11 +25,15 @@ public struct GFGradient: Codable {
         return cgColors
     }
     
-    var numbers: [NSNumber] {
+    public var numbers: [NSNumber] {
         var numbers = [NSNumber]()
         for floatNumber in locations {
             numbers.append(NSNumber(value: Float(floatNumber)))
         }
         return numbers
+    }
+    
+    public var isEmpty: Bool {
+        return locations.count == 0 && colors.count == 0
     }
 }

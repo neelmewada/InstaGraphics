@@ -23,6 +23,10 @@ public class GFTextElement: GFElement, UITextViewDelegate {
         return .text
     }
     
+    public override var resizeMode: GFResizeMode {
+        return .freely
+    }
+    
     private lazy var textView: UITextView = {
         let textView = UITextView()
         textView.text = "Text"
@@ -53,7 +57,7 @@ public class GFTextElement: GFElement, UITextViewDelegate {
         addSubview(textView)
     }
     
-    func configure(_ config: GFTextElement.Configuration) {
+    public func configure(_ config: GFTextElement.Configuration) {
         if let fontName = config.fontName {
             textView.font = UIFont(name: fontName, size: config.fontSize)
         } else {
@@ -64,11 +68,15 @@ public class GFTextElement: GFElement, UITextViewDelegate {
         textViewUpdated()
     }
     
+    public func configure(fontSize: CGFloat) {
+        textView.font = textView.font?.withSize(fontSize)
+        textViewUpdated()
+    }
+    
     // MARK: - Methods
     
     private func textViewUpdated() {
         originalFrame.size = textView.intrinsicContentSize
-        //frame.size = textView.intrinsicContentSize
         
         textView.frame = CGRect(x: 0, y: 0, width: originalFrame.width, height: originalFrame.height)
         canvas?.editor?.layoutUpdate()

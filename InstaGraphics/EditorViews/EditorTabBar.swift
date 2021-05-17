@@ -10,7 +10,8 @@ import UIKit
 class EditorTabBar: UIView {
     // MARK: - Lifecycle
     
-    init() {
+    init(showCallback: @escaping (EditorTabBarItem) -> ()) {
+        self.showCallback = showCallback
         super.init(frame: .zero)
         configureView()
     }
@@ -18,6 +19,8 @@ class EditorTabBar: UIView {
     required init?(coder: NSCoder) { return nil }
     
     // MARK: - Properties
+    
+    private let showCallback: (EditorTabBarItem) -> ()
     
     private let stackView: UIStackView = {
         let stack = UIStackView()
@@ -34,14 +37,22 @@ class EditorTabBar: UIView {
         EditorTabBarItem(imageName: "sticker-icon", text: "Sticker", itemView: EditorTabBarPhotosView()),
         EditorTabBarItem(imageName: "shape-icon", text: "Shapes", itemView: EditorTabBarPhotosView()),
     ]
+        
+    public private(set) var isShown: Bool = false
+    
+    private var popupOffset: CGFloat = 0
     
     private var sharedConstraints: [NSLayoutConstraint] = []
     private var compactConstraints: [NSLayoutConstraint] = []
     private var regularConstraints: [NSLayoutConstraint] = []
     
+    private var popupBottomConstraint: NSLayoutConstraint!
+    
     // MARK: - Configuration
     
     private func configureView() {
+        isShown = false
+        
         addSubview(stackView)
         compactConstraints.append(contentsOf: stackView.anchorConstraints(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, spacingLeft: 20, spacingBottom: 36, spacingRight: 20, activateConstraints: false))
         regularConstraints.append(contentsOf: stackView.anchorConstraints(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, spacingLeft: 74, spacingBottom: 36, spacingRight: 74, activateConstraints: false))
@@ -55,12 +66,20 @@ class EditorTabBar: UIView {
         layoutTrait(UIScreen.main.traitCollection)
     }
     
-    // MARK: - Actions
+    func configureOnAppear() {
+        
+    }
+    
+    // MARK: - Methods
     
     private func tabBarItemTapped(item: EditorTabBarItem) {
         if let index = tabItems.firstIndex(of: item) {
-            print("\(item.text) tapped!")
+            showCallback(item)
         }
+    }
+    
+    private func hidePopupView() {
+        
     }
     
     // MARK: - Layout
@@ -99,5 +118,6 @@ class EditorTabBar: UIView {
 protocol EditorTabBarItemView {
     
 }
+
 
 

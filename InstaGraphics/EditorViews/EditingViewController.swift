@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EditingViewController: UIViewController, EditorTopBarDelegate {
+class EditingViewController: UIViewController {
     // MARK: - Lifecycle
     
     init(_ document: GFDocument) {
@@ -46,7 +46,9 @@ class EditingViewController: UIViewController, EditorTopBarDelegate {
     
     private let editorView: GFEditorView
     
-    private let editorTabBar = EditorTabBar()
+    private let editorPopupView = EditorTabBarPopupView(popupHeight: 730)
+    
+    private lazy var editorTabBar = EditorTabBar(showCallback: self.showPopupView)
     private let editorToolBar = EditorToolBar()
     private let editorTopBar = EditorTopBar()
     
@@ -71,11 +73,16 @@ class EditingViewController: UIViewController, EditorTopBarDelegate {
         view.addSubview(bottomGradient)
         bottomGradient.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
         
+        view.addSubview(editorToolBar)
+        editorToolBar.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, spacingLeft: 20, spacingBottom: 130, spacingRight: 20, height: 75)
+        
+        view.addSubview(editorPopupView)
+        let popupHeight = editorPopupView.popupHeight
+        editorPopupView.frame = CGRect(x: 0, y: AppUtils.orientationHeight, width: AppUtils.orientationWidth, height: popupHeight)
+        editorPopupView.configureOnFrameSet()
+        
         view.addSubview(editorTabBar)
         editorTabBar.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, height: 100)
-        
-        view.addSubview(editorToolBar)
-        editorToolBar.anchor(left: view.leftAnchor, bottom: editorTabBar.topAnchor, right: view.rightAnchor, spacingLeft: 20, spacingBottom: 40, spacingRight: 20, height: 75)
         
         view.addSubview(editorTopBar)
         editorTopBar.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 100)
@@ -97,9 +104,19 @@ class EditingViewController: UIViewController, EditorTopBarDelegate {
         bottomGradient.layer.addSublayer(gradientLayer)
         
         editorTopBar.configureOnAppear()
+        editorTabBar.configureOnAppear()
+        editorPopupView.configureOnFrameSet()
     }
     
     func configureData() {
+        
+    }
+    
+    func showPopupView(_ item: EditorTabBarItem) {
+        editorPopupView.show()
+    }
+    
+    func hidePopupView() {
         
     }
     
@@ -121,9 +138,12 @@ class EditingViewController: UIViewController, EditorTopBarDelegate {
         super.traitCollectionDidChange(previousTraitCollection)
         layoutTrait(UIScreen.main.traitCollection)
     }
-    
-    // MARK: - EditorTopBarDelegate
-    
+}
+
+
+// MARK: - EditorTopBarDelegate
+
+extension EditingViewController: EditorTopBarDelegate {
     func backButtonPressed() {
         AppUtils.popVCFromNavigation(animated: true)
     }
@@ -132,3 +152,6 @@ class EditingViewController: UIViewController, EditorTopBarDelegate {
         editorView.capture()
     }
 }
+
+
+

@@ -10,7 +10,7 @@ import UIKit
 class EditorTabBarItem: UIView {
     // MARK: - Lifecycle
     
-    init(imageName: String, text: String, itemView: EditorTabBarItemView) {
+    init(imageName: String, text: String, itemView: EditorTabBarItemView?) {
         self.imageName = imageName
         self.text = text
         self.itemView = itemView
@@ -26,7 +26,7 @@ class EditorTabBarItem: UIView {
     
     public let imageName: String
     public let text: String
-    public let itemView: EditorTabBarItemView
+    public let itemView: EditorTabBarItemView?
     
     public lazy var imageView: UIImageView = {
         let view = UIImageView()

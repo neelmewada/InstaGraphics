@@ -191,16 +191,6 @@ extension UIView {
 // MARK: - UIButton
 
 extension UIButton {
-    func attributedTitle(firstPart: String, secondPart: String) {
-        let atts: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.fromHex("353636"), .font: UIFont(name: "Poppins-SemiBold", size: 13)!]
-        let attributedTitle = NSMutableAttributedString(string: firstPart, attributes: atts)
-        
-        let boldAtts: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.black, .font: UIFont(name: "Poppins-SemiBold", size: 13)!, .underlineStyle: NSUnderlineStyle.thick]
-        attributedTitle.append(NSAttributedString(string: secondPart, attributes: boldAtts))
-        
-        setAttributedTitle(attributedTitle, for: .normal)
-    }
-    
     private func image(withColor color: UIColor) -> UIImage? {
         let rect = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
         UIGraphicsBeginImageContext(rect.size)

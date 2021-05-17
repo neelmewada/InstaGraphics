@@ -8,7 +8,7 @@
 import UIKit
 
 extension GFTextElement {
-    struct Configuration {
+    public struct Configuration {
         var fontName: String? = nil
         var fontSize: CGFloat = 16
         var textColor: UIColor = .black

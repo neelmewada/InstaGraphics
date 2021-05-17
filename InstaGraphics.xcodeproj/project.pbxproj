@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		32876D10FCD53AF1A083E448 /* Pods_InstaGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81DE9060C2D0977511AFED8B /* Pods_InstaGraphics.framework */; };
+		562925382652C44D00261A35 /* EditorTabBarPhotosThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562925372652C44D00261A35 /* EditorTabBarPhotosThumbnailView.swift */; };
 		564F0F37263D8A8B00F74D5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564F0F36263D8A8B00F74D5B /* AppDelegate.swift */; };
 		564F0F39263D8A8B00F74D5B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564F0F38263D8A8B00F74D5B /* SceneDelegate.swift */; };
 		564F0F3B263D8A8B00F74D5B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564F0F3A263D8A8B00F74D5B /* ViewController.swift */; };
@@ -29,6 +30,13 @@
 		5672A9C32645627900BC954A /* GFSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5672A9C22645627900BC954A /* GFSelectionDelegate.swift */; };
 		5672A9C526464DA400BC954A /* GFTextElementConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5672A9C426464DA400BC954A /* GFTextElementConfiguration.swift */; };
 		5672A9C72646B04D00BC954A /* GFSelectionAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5672A9C62646B04D00BC954A /* GFSelectionAnchor.swift */; };
+		567340BD265121DC00E4F23A /* EditorTabBarPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567340BC265121DC00E4F23A /* EditorTabBarPopupView.swift */; };
+		567340BF2651351B00E4F23A /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567340BE2651351B00E4F23A /* SearchView.swift */; };
+		567340C1265145A800E4F23A /* PhotoProviderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567340C0265145A800E4F23A /* PhotoProviderService.swift */; };
+		567340C526514DC300E4F23A /* PexelsPhotoProviderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567340C426514DC300E4F23A /* PexelsPhotoProviderService.swift */; };
+		567340C72651514B00E4F23A /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567340C62651514B00E4F23A /* APIService.swift */; };
+		567340C92651521000E4F23A /* PexelsCuratedResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567340C82651521000E4F23A /* PexelsCuratedResult.swift */; };
+		567340CB265152F300E4F23A /* PexelsPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567340CA265152F300E4F23A /* PexelsPhoto.swift */; };
 		5699970B2642E45B00205030 /* GFColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569997092642E45A00205030 /* GFColor.swift */; };
 		5699970C2642E45B00205030 /* GFGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5699970A2642E45B00205030 /* GFGradient.swift */; };
 		5699970E2642E46400205030 /* GFElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5699970D2642E46400205030 /* GFElement.swift */; };
@@ -61,6 +69,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		562925372652C44D00261A35 /* EditorTabBarPhotosThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorTabBarPhotosThumbnailView.swift; sourceTree = "<group>"; };
 		564F0F33263D8A8B00F74D5B /* InstaGraphics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaGraphics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		564F0F36263D8A8B00F74D5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		564F0F38263D8A8B00F74D5B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +93,13 @@
 		5672A9C22645627900BC954A /* GFSelectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFSelectionDelegate.swift; sourceTree = "<group>"; };
 		5672A9C426464DA400BC954A /* GFTextElementConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFTextElementConfiguration.swift; sourceTree = "<group>"; };
 		5672A9C62646B04D00BC954A /* GFSelectionAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFSelectionAnchor.swift; sourceTree = "<group>"; };
+		567340BC265121DC00E4F23A /* EditorTabBarPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorTabBarPopupView.swift; sourceTree = "<group>"; };
+		567340BE2651351B00E4F23A /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		567340C0265145A800E4F23A /* PhotoProviderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoProviderService.swift; sourceTree = "<group>"; };
+		567340C426514DC300E4F23A /* PexelsPhotoProviderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PexelsPhotoProviderService.swift; sourceTree = "<group>"; };
+		567340C62651514B00E4F23A /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		567340C82651521000E4F23A /* PexelsCuratedResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PexelsCuratedResult.swift; sourceTree = "<group>"; };
+		567340CA265152F300E4F23A /* PexelsPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PexelsPhoto.swift; sourceTree = "<group>"; };
 		569997092642E45A00205030 /* GFColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFColor.swift; sourceTree = "<group>"; };
 		5699970A2642E45B00205030 /* GFGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFGradient.swift; sourceTree = "<group>"; };
 		5699970D2642E46400205030 /* GFElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFElement.swift; sourceTree = "<group>"; };
@@ -136,7 +152,6 @@
 				CF135C380BA20ABA712E9975 /* Pods-InstaGraphics.debug.xcconfig */,
 				9177540E752745D96C12AA60 /* Pods-InstaGraphics.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -194,6 +209,9 @@
 			children = (
 				5672A9B22643F9C700BC954A /* EditorTabBarPhotosView.swift */,
 				5672A9B42644034400BC954A /* EditorTabBarItem.swift */,
+				567340BC265121DC00E4F23A /* EditorTabBarPopupView.swift */,
+				567340BE2651351B00E4F23A /* SearchView.swift */,
+				562925372652C44D00261A35 /* EditorTabBarPhotosThumbnailView.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -216,10 +234,30 @@
 			path = Selection;
 			sourceTree = "<group>";
 		};
+		567340C226514AFB00E4F23A /* Photos */ = {
+			isa = PBXGroup;
+			children = (
+				567340C0265145A800E4F23A /* PhotoProviderService.swift */,
+			);
+			path = Photos;
+			sourceTree = "<group>";
+		};
+		567340C326514C7700E4F23A /* Pexels */ = {
+			isa = PBXGroup;
+			children = (
+				567340C426514DC300E4F23A /* PexelsPhotoProviderService.swift */,
+				567340C82651521000E4F23A /* PexelsCuratedResult.swift */,
+				567340CA265152F300E4F23A /* PexelsPhoto.swift */,
+			);
+			path = Pexels;
+			sourceTree = "<group>";
+		};
 		56A9BA26264120CF00D12BF4 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				56A9BA3926413AD800D12BF4 /* AppUtils.swift */,
+				567340C326514C7700E4F23A /* Pexels */,
+				567340C226514AFB00E4F23A /* Photos */,
+				567340C62651514B00E4F23A /* APIService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -252,6 +290,7 @@
 		56A9BA2A2641222A00D12BF4 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				56A9BA3926413AD800D12BF4 /* AppUtils.swift */,
 				56A9BA2B2641228F00D12BF4 /* Extensions.swift */,
 				56A9BA2D2641237B00D12BF4 /* StringValidation.swift */,
 				56A9BA2F264123AF00D12BF4 /* FileManagement.swift */,
@@ -463,23 +502,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				5672A9C72646B04D00BC954A /* GFSelectionAnchor.swift in Sources */,
+				567340C1265145A800E4F23A /* PhotoProviderService.swift in Sources */,
 				56A9BA3E26413E4B00D12BF4 /* EditingViewController.swift in Sources */,
 				56A9BA2C2641229000D12BF4 /* Extensions.swift in Sources */,
 				5672A9BC264420C800BC954A /* EditorTopBar.swift in Sources */,
+				567340BD265121DC00E4F23A /* EditorTabBarPopupView.swift in Sources */,
 				5672A9C32645627900BC954A /* GFSelectionDelegate.swift in Sources */,
 				56A9BA4F26415A6100D12BF4 /* GFCanvas.swift in Sources */,
 				56A9BA5326424A3E00D12BF4 /* GFBackground.swift in Sources */,
 				5672A9C1264518B200BC954A /* GFSelectionIndicator.swift in Sources */,
 				564F0F3B263D8A8B00F74D5B /* ViewController.swift in Sources */,
+				567340BF2651351B00E4F23A /* SearchView.swift in Sources */,
 				56A9BA6426427EC200D12BF4 /* GFEditorConfiguration.swift in Sources */,
+				567340CB265152F300E4F23A /* PexelsPhoto.swift in Sources */,
+				567340C526514DC300E4F23A /* PexelsPhotoProviderService.swift in Sources */,
 				56A9BA3A26413AD800D12BF4 /* AppUtils.swift in Sources */,
 				56A9BA562642667100D12BF4 /* GFCodableDocument.swift in Sources */,
+				567340C92651521000E4F23A /* PexelsCuratedResult.swift in Sources */,
 				5672A9B32643F9C700BC954A /* EditorTabBarPhotosView.swift in Sources */,
 				56A9BA30264123AF00D12BF4 /* FileManagement.swift in Sources */,
 				5672A9B926441A4700BC954A /* EditorToolBar.swift in Sources */,
 				56A9BA4B26414BD400D12BF4 /* GFEditorView.swift in Sources */,
 				5699970C2642E45B00205030 /* GFGradient.swift in Sources */,
 				564F0F37263D8A8B00F74D5B /* AppDelegate.swift in Sources */,
+				567340C72651514B00E4F23A /* APIService.swift in Sources */,
 				5672A9AC26439E8E00BC954A /* GFUtils.swift in Sources */,
 				5672A9C526464DA400BC954A /* GFTextElementConfiguration.swift in Sources */,
 				56A9BA6626428AB800D12BF4 /* HomeViewController.swift in Sources */,
@@ -503,6 +549,7 @@
 				564F0F4C263E636C00F74D5B /* TestEditableView.swift in Sources */,
 				56A9BA322641250700D12BF4 /* ViewModel.swift in Sources */,
 				564F0F39263D8A8B00F74D5B /* SceneDelegate.swift in Sources */,
+				562925382652C44D00261A35 /* EditorTabBarPhotosThumbnailView.swift in Sources */,
 				56A9BA5B2642678000D12BF4 /* GFImageElement.swift in Sources */,
 				5672A9B72644164B00BC954A /* Constants.swift in Sources */,
 			);

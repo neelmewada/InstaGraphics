@@ -146,8 +146,9 @@ public class GFSelection: GFView {
     func handlePan(_ recognizer: UIPanGestureRecognizer, target: GFView) -> Bool {
         guard let canvas = canvas else { return false }
         guard let editor = canvas.editor else { return false }
+        guard let selection = selection else { return false }
         
-        if selection is GFTextElement && selection!.isEditing {
+        if selection is GFTextElement && selection.isEditing {
             return false
         }
         
@@ -160,21 +161,21 @@ public class GFSelection: GFView {
             
             switch target.anchorPosition {
             case .topLeft:
-                selection!.originalFrame.origin.x += translation.x / widthFactor
-                selection!.originalFrame.origin.y += translation.y / heightFactor
-                selection!.originalFrame.size.width += -translation.x / widthFactor
-                selection!.originalFrame.size.height += -translation.y / heightFactor
+                selection.originalFrame.origin.x += translation.x / widthFactor
+                selection.originalFrame.origin.y += translation.y / heightFactor
+                selection.originalFrame.size.width += -translation.x / widthFactor
+                selection.originalFrame.size.height += -translation.y / heightFactor
             case .topRight:
-                selection!.originalFrame.size.width += translation.x / widthFactor
-                selection!.originalFrame.origin.y += translation.y / heightFactor
-                selection!.originalFrame.size.height += -translation.y / heightFactor
+                selection.originalFrame.size.width += translation.x / widthFactor
+                selection.originalFrame.origin.y += translation.y / heightFactor
+                selection.originalFrame.size.height += -translation.y / heightFactor
             case .bottomLeft:
-                selection!.originalFrame.origin.x += translation.x / widthFactor
-                selection!.originalFrame.size.width += -translation.x / widthFactor
-                selection!.originalFrame.size.height += translation.y / heightFactor
+                selection.originalFrame.origin.x += translation.x / widthFactor
+                selection.originalFrame.size.width += -translation.x / widthFactor
+                selection.originalFrame.size.height += translation.y / heightFactor
             case .bottomRight:
-                selection!.originalFrame.size.width += translation.x / widthFactor
-                selection!.originalFrame.size.height += translation.y / heightFactor
+                selection.originalFrame.size.width += translation.x / widthFactor
+                selection.originalFrame.size.height += translation.y / heightFactor
             default:
                 break
             }
@@ -182,9 +183,9 @@ public class GFSelection: GFView {
             switch target.anchorType {
             case .rotator:
                 if initialPanRotation == nil {
-                    initialPanRotation = selection!.rotation
+                    initialPanRotation = selection.rotation
                 }
-                selection!.rotation -= translation.x / widthFactor
+                selection.rotation -= translation.x / widthFactor
             default:
                 break
             }
@@ -243,4 +244,11 @@ public class GFSelection: GFView {
         super.documentResolutionChanged(from: oldRes, to: newRes)
         self.currentDocumentResolution = newRes
     }
+}
+
+public enum GFResizeMode {
+    case freely
+    case maintainAspectRatio
+    
+    public static var defaultMode: GFResizeMode { .freely }
 }

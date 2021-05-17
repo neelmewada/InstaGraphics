@@ -15,7 +15,7 @@ extension UIColor {
         return GFColor(uiColor: self)
     }
     
-    static func fromHex(_ hex: String) -> UIColor {
+    static func fromHex(_ hex: String, alpha: CGFloat = 1.0) -> UIColor {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int: UInt64 = 0
         Scanner(string: hex).scanHexInt64(&int)
@@ -35,7 +35,7 @@ extension UIColor {
             red:   CGFloat(r) / 255,
             green: CGFloat(g) / 255,
             blue:  CGFloat(b) / 255,
-            alpha: CGFloat(a) / 255
+            alpha: alpha
         )
     }
 }
@@ -82,3 +82,14 @@ extension UITextView {
         }
     }
 }
+
+// MARK: - String
+
+extension String {
+    func getQueryStringParameter(param: String) -> String? {
+        guard let url = URLComponents(string: self) else { return nil }
+        return url.queryItems?.first(where: { $0.name == param })?.value
+    }
+}
+
+
