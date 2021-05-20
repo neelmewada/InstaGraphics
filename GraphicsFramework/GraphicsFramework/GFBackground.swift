@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 public class GFBackground: GFView {
     // MARK: - Lifecycle
@@ -13,6 +14,7 @@ public class GFBackground: GFView {
     init(_ owner: GFView) {
         self.owner = owner
         super.init(frame: .zero)
+        self.clipsToBounds = true
         self.isUserInteractionEnabled = false
     }
     
@@ -103,26 +105,24 @@ public class GFBackground: GFView {
         self.gradient = gradient
     }
     
-    func configureImage(_ image: GFImageInfo) {
-        self.type = .image
-        self.image = image
-    }
-    
     func configureImage(fromAsset named: String, contentMode: ContentMode = .scaleAspectFill) {
         self.type = .image
         self.image = .create(withMode: .asset, urls: [GFImageUrl(url: named, imageSize: .zero)])
+        imageView?.contentMode = contentMode
         self.contentMode = contentMode
     }
     
     func configureImage(fromLocalUrls urls: [GFImageUrl], contentMode: ContentMode = .scaleAspectFill) {
         self.type = .image
         self.image = .create(withMode: .local, urls: urls)
+        imageView?.contentMode = contentMode
         self.contentMode = contentMode
     }
     
     func configureImage(fromRemoteUrls urls: [GFImageUrl], contentMode: ContentMode = .scaleAspectFill) {
         self.type = .image
         self.image = .create(withMode: .remote, urls: urls)
+        imageView?.contentMode = contentMode
         self.contentMode = contentMode
     }
     
@@ -154,15 +154,24 @@ public class GFBackground: GFView {
             imageView!.fillSuperview()
         }
         
+        layoutIfNeeded()
+        
         imageView!.contentMode = self.contentMode
+        
+        var imageUrl = image.urls.last!
+        if image.urls.count > 4 {
+            let count = image.urls.count
+            imageUrl = image.urls[count - 2]
+        }
         
         switch image.mode {
         case .asset:
-            imageView!.image = UIImage(named: image.urls.first!.url)
+            imageView!.image = UIImage(named: imageUrl.url)
         case .local:
-            break
+            imageView!.image = UIImage(contentsOfFile: imageUrl.url)
         case .remote:
-            break
+            imageView!.sd_setImage(with: URL(string: imageUrl.url))
+            print("Setting remote image to: \(imageUrl.url) ; \(frame.size) ; \(originalFrame.size)")
         }
     }
     

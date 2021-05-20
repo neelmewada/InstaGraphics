@@ -159,6 +159,7 @@ extension EditingViewController: EditorTopBarDelegate {
 extension EditingViewController: EditorTabBarPhotosViewDelegate {
     func editorTabBarPhotosView(_ view: EditorTabBarPhotosView, didTapOnPhoto photo: GFImageInfo) {
         hidePopupView()
+        editorView.addImageElement(withImage: photo)
     }
     
     func editorTabBarPhotosViewShouldDismiss(_ view: EditorTabBarPhotosView) {

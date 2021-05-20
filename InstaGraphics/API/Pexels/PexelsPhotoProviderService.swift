@@ -64,7 +64,7 @@ public class PexelsPhotoProviderService: PhotoProviderService {
                                                           .fromString(urls.large2x),
                                                           .fromString(urls.landscape),
                                                           .fromString(urls.portrait),
-                                                          .fromString(urls.original)])
+                                                          .create(urls.original, CGSize(width: photo.width, height: photo.height))])
                     images.append(image)
                 }
                 

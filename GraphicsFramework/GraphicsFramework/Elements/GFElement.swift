@@ -13,9 +13,11 @@ public class GFElement: GFView {
     init(canvas: GFCanvas) {
         self.canvas = canvas
         super.init(frame: .zero)
-        // initialize the element once
+        
+        // initialize the background once
         addSubview(background)
         background.fillSuperview()
+        
         self.isUserInteractionEnabled = true
     }
     

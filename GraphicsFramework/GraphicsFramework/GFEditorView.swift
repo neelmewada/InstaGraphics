@@ -118,6 +118,7 @@ public class GFEditorView: UIView, UIGestureRecognizerDelegate {
         
         let locationInCanvas = recognizer.location(in: canvas)
         if let hitView = canvas.hitTest(locationInCanvas, with: nil) { // Hit canvas or it's subview
+            // For testing only...
             if hitView == canvas && !textAdded {
                 let textElement = GFTextElement(canvas: canvas)
                 canvas.addElement(textElement, at: locationInCanvas)
@@ -136,6 +137,7 @@ public class GFEditorView: UIView, UIGestureRecognizerDelegate {
                 (hitView as? GFView)?.viewSingleTapped()
             }
         } else { // No hits
+            // For testing only...
             setDocumentResolution(CGSize(width: document.resolution.width * 1.5, height: document.resolution.height * 1.5))
         }
     }
@@ -243,5 +245,22 @@ public class GFEditorView: UIView, UIGestureRecognizerDelegate {
     
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+}
+
+// MARK: - Helper Methods
+
+extension GFEditorView {
+    public func addImageElement(withImage image: GFImageInfo) {
+        let imageElement = GFImageElement(canvas: canvas)
+        canvas.addElement(imageElement, at: .zero)
+        
+        var imageSize = image.urls.last!.imageSize
+        let imageAspectRatio = imageSize.width / imageSize.height
+        imageSize.width = canvas.canvasSize.width * 0.5
+        imageSize.height = imageSize.width / imageAspectRatio
+        
+        print("Adding image: \(imageSize) ; \(canvas.canvasSize)")
+        imageElement.configure(withImage: image, size: imageSize, contentMode: .scaleAspectFill)
     }
 }

@@ -48,6 +48,24 @@ public struct GFImageInfo: Codable {
     public static func create(withMode mode: GFImageMode, thumbnailUrl: GFImageUrl, urls: [GFImageUrl]) -> GFImageInfo {
         return GFImageInfo(urls: urls, mode: mode, thumbnailUrl: thumbnailUrl)
     }
+    
+    
+    /// Returns the GFImageUrl of image whose size is closest to the give size.
+    public func getUrlOfImage(closestToSize size: CGSize) -> GFImageUrl {
+        var closestIdx = 0
+        var minDifference: CGFloat = .infinity
+        
+        for i in 0..<urls.count {
+            print("imageSize[\(i)] = \(urls[i].imageSize)")
+            let diff = ((urls[i].imageSize.width - size.width) + (urls[i].imageSize.height - size.height)) / 2
+            if diff < minDifference {
+                minDifference = diff
+                closestIdx = i
+            }
+        }
+        
+        return urls[closestIdx]
+    }
 }
 
 /// A Codable struct representing an Image URL in GFImageInfo.
@@ -69,6 +87,15 @@ public struct GFImageUrl: Codable {
            let h = url.getQueryStringParameter(param: "h") {
             size = CGSize(width: CGFloat(Float(w) ?? 0), height: CGFloat(Float(h) ?? 0))
         }
+        return GFImageUrl(url: url, imageSize: size)
+    }
+    
+    /// Creates a GFImageUrl from a given url string and of the specified size.
+    /// - Parameters:
+    ///   - url: The url string of the image.
+    ///   - size: The size of the image.
+    /// - Returns: Returns a GFImageUrl.
+    public static func create(_ url: String, _ size: CGSize) -> GFImageUrl {
         return GFImageUrl(url: url, imageSize: size)
     }
 }
