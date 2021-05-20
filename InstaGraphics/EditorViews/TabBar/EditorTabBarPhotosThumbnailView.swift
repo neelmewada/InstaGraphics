@@ -7,6 +7,7 @@
 
 import UIKit
 import SDWebImage
+import GraphicsFramework
 
 class EditorTabBarPhotosThumbnailView: UICollectionViewCell {
     // MARK: - Lifecycle
@@ -24,6 +25,7 @@ class EditorTabBarPhotosThumbnailView: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 10
         return imageView
     }()
     
@@ -43,8 +45,9 @@ class EditorTabBarPhotosThumbnailView: UICollectionViewCell {
         self.image = image
         if !image.thumbnailUrl.url.isEmpty {
             imageView.sd_setImage(with: URL(string: image.thumbnailUrl.url), placeholderImage: imageView.image)
-        } else {
-            imageView.sd_setImage(with: URL(string: image.urls[0].url), placeholderImage: imageView.image)
+        } else if image.urls.count > 0 {
+            imageView.image = nil
+            imageView.sd_setImage(with: URL(string: image.urls[0].url))
         }
     }
 }

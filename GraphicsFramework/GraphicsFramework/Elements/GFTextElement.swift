@@ -10,7 +10,7 @@ import UIKit
 public class GFTextElement: GFElement, UITextViewDelegate {
     // MARK: - Lifecycle
     
-    override init(canvas: GFCanvas) {
+    override public init(canvas: GFCanvas) {
         super.init(canvas: canvas)
         configureElement()
     }

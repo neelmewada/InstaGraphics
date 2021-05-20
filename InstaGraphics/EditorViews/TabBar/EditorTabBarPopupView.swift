@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GraphicsFramework
 
 class EditorTabBarPopupView: UIView {
     // MARK: - Lifecycle
@@ -39,9 +40,14 @@ class EditorTabBarPopupView: UIView {
     
     private let contentView = UIView()
     
-    private let editorPopupPhotosView = EditorTabBarPhotosView()
+    public let editorPopupItemView = EditorTabBarPhotosView()
     
     public var popupHeight: CGFloat
+    
+    private var hidePos: CGFloat = 0
+    private var showPos: CGFloat = 0
+    private var panDirection: CGFloat = 0
+    private var prevTranslationY: CGFloat = 0
     
     public private(set) var isShown = false
     
@@ -60,10 +66,13 @@ class EditorTabBarPopupView: UIView {
         containerView.addSubview(contentView)
         contentView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, spacingLeft: 20, spacingBottom: 110, spacingRight: 20)
         
-        contentView.addSubview(editorPopupPhotosView)
-        editorPopupPhotosView.fillSuperview()
+        contentView.addSubview(editorPopupItemView)
+        editorPopupItemView.fillSuperview()
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(_:))))
+        
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        addGestureRecognizer(panGesture)
     }
     
     /// Call this function just after the frame of `this` view is set.
@@ -80,7 +89,10 @@ class EditorTabBarPopupView: UIView {
         gradientLayer.frame = gradientView.frame
         gradientView.layer.addSublayer(gradientLayer)
         
-        editorPopupPhotosView.configureOnLayout()
+        editorPopupItemView.configureOnLayout()
+        
+        showPos = self.frame.origin.y - self.popupHeight
+        hidePos = self.frame.origin.y
     }
     
     func show() {
@@ -88,10 +100,7 @@ class EditorTabBarPopupView: UIView {
             return
         }
         
-        isShown = true
-        UIView.animate(withDuration: 0.5, delay: 0) {
-            self.frame.origin.y -= self.popupHeight
-        }
+        showAnimated()
     }
     
     func hide() {
@@ -99,9 +108,21 @@ class EditorTabBarPopupView: UIView {
             return
         }
         
-        isShown = false
+        hideAnimated()
+    }
+    
+    private func showAnimated() {
+        isShown = true
         UIView.animate(withDuration: 0.5, delay: 0) {
-            self.frame.origin.y += self.popupHeight
+            self.frame.origin.y = self.showPos
+        }
+    }
+    
+    private func hideAnimated() {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.1) {
+            self.frame.origin.y = self.hidePos
+        } completion: { _ in
+            self.isShown = false
         }
     }
     
@@ -109,5 +130,25 @@ class EditorTabBarPopupView: UIView {
     
     @objc private func handleTap(_ tapGesture: UITapGestureRecognizer) {
         self.endEditing(true)
+    }
+    
+    @objc private func handlePan(_ panGesture: UIPanGestureRecognizer) {
+        let translation = panGesture.translation(in: self)
+        
+        if panGesture.state == .ended || panGesture.state == .cancelled {
+            if panDirection < 0 && translation.y < 150 {
+                showAnimated()
+            } else {
+                hideAnimated()
+            }
+            return
+        }
+        
+        if panGesture.state == .began || panGesture.state == .changed {
+            let transY = (translation.y > 0) ? translation.y : 0
+            self.frame.origin.y = self.showPos + transY
+            panDirection = translation.y - prevTranslationY
+            prevTranslationY = translation.y
+        }
     }
 }

@@ -11,19 +11,23 @@ import UIKit
 /// Codable struct used to store information about an image obtained from API (Unsplash, Pexels, etc)
 public struct GFImageInfo: Codable {
     /// Urls of this image ordered by increasing image resolution. Further the url in this array, higher it's resolution.
-    var urls: [GFImageUrl]
+    public var urls: [GFImageUrl]
     
     /// Indicates whether the urls represent a local image, remote image or asset name.
-    var mode: GFImageMode = .remote
+    public var mode: GFImageMode = .remote
     
     /// The thumbnail URL of this image.
-    var thumbnailUrl: GFImageUrl = .empty
+    public var thumbnailUrl: GFImageUrl = .empty
     
     /// Empty image.
     public static var empty: GFImageInfo {
         return GFImageInfo(urls: [])
     }
     
+    /// Returns true if this GFImageInfo represents an empty image.
+    public var isEmpty: Bool {
+        return urls.count == 0 && thumbnailUrl.url == ""
+    }
     
     /// Creates a new GFImageInfo with the specified mode and URLs.
     /// - Parameters:
@@ -46,10 +50,12 @@ public struct GFImageInfo: Codable {
     }
 }
 
+/// A Codable struct representing an Image URL in GFImageInfo.
 public struct GFImageUrl: Codable {
-    var url: String
-    var imageSize: CGSize
+    public var url: String
+    public var imageSize: CGSize
     
+    /// A GFImageUrl representing an empty image.
     public static var empty: GFImageUrl {
         return GFImageUrl(url: "", imageSize: .zero)
     }

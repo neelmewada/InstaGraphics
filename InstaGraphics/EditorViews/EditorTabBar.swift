@@ -32,10 +32,10 @@ class EditorTabBar: UIView {
     
     public lazy var tabItems: [EditorTabBarItem] = [
         EditorTabBarItem(imageName: "image-icon", text: "Photos", itemView: EditorTabBarPhotosView()),
-        EditorTabBarItem(imageName: "upload-icon", text: "Uploads", itemView: EditorTabBarPhotosView()),
-        EditorTabBarItem(imageName: "text-icon", text: "Text", itemView: EditorTabBarPhotosView()),
-        EditorTabBarItem(imageName: "sticker-icon", text: "Sticker", itemView: EditorTabBarPhotosView()),
-        EditorTabBarItem(imageName: "shape-icon", text: "Shapes", itemView: EditorTabBarPhotosView()),
+        EditorTabBarItem(imageName: "upload-icon", text: "Uploads", itemView: nil),
+        EditorTabBarItem(imageName: "text-icon", text: "Text", itemView: nil),
+        EditorTabBarItem(imageName: "sticker-icon", text: "Sticker", itemView: nil),
+        EditorTabBarItem(imageName: "shape-icon", text: "Shapes", itemView: nil),
     ]
         
     public private(set) var isShown: Bool = false
@@ -115,8 +115,8 @@ class EditorTabBar: UIView {
 
 // MARK: - EditorTabBarItemView Protocol
 
-protocol EditorTabBarItemView {
-    
+protocol EditorTabBarItemView: UIView {
+    func configureOnLayout()
 }
 
 

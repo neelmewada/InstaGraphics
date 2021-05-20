@@ -5,6 +5,9 @@
       location = "group:InstaGraphics.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:GraphicsFramework/GraphicsFramework.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

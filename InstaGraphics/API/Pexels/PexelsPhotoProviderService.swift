@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GraphicsFramework
 
 /// Photo Provider Service used to retreive photos from Pexels.
 public class PexelsPhotoProviderService: PhotoProviderService {
@@ -30,7 +31,7 @@ public class PexelsPhotoProviderService: PhotoProviderService {
         return true
     }
     
-    override func loadDefaultPhotos(atPage page: Int, photosPerPage: Int, completion: @escaping ([GFImageInfo], Error?) -> ()) {
+    override func loadDefaultPhotos(atPage page: Int, photosPerPage: Int, completion: @escaping (Int, [GFImageInfo], Error?) -> ()) {
         guard let url = URL(string: "\(Self.curatedPhotosUrl)?page=\(page)&per_page=\(photosPerPage)") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -40,7 +41,7 @@ public class PexelsPhotoProviderService: PhotoProviderService {
             if let error = error {
                 print("Error loading default photos from Pexels.\n \(error)")
                 DispatchQueue.main.async {
-                    completion([], error)
+                    completion(0, [], error)
                 }
                 return
             }
@@ -68,12 +69,12 @@ public class PexelsPhotoProviderService: PhotoProviderService {
                 }
                 
                 DispatchQueue.main.async {
-                    completion(images, nil)
+                    completion(page, images, nil)
                 }
             } catch {
                 print("Error fetching default photos from response. \(error)")
                 DispatchQueue.main.async {
-                    completion([], error)
+                    completion(page, [], error)
                 }
                 return
             }

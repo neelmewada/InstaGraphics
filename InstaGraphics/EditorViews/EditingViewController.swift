@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GraphicsFramework
 
 class EditingViewController: UIViewController {
     // MARK: - Lifecycle
@@ -13,6 +14,7 @@ class EditingViewController: UIViewController {
     init(_ document: GFDocument) {
         self.editorView = GFEditorView(document: document)
         super.init(nibName: nil, bundle: nil)
+        self.editorPopupView.editorPopupItemView.delegate = self
     }
     
     required init?(coder: NSCoder) { return nil }
@@ -28,14 +30,13 @@ class EditingViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if viewAppeared {
+        if viewAppearedAlready {
             return
         }
         // configure the editor view once
-        let config = GFEditorView.Configuration()
-        editorView.configure(config)
+        editorView.configure()
         configureOnAppear()
-        viewAppeared = true
+        viewAppearedAlready = true
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -52,7 +53,7 @@ class EditingViewController: UIViewController {
     private let editorToolBar = EditorToolBar()
     private let editorTopBar = EditorTopBar()
     
-    private var viewAppeared = false
+    private var viewAppearedAlready = false
     
     private let bottomGradient: UIView = {
         let view = UIView()
@@ -117,7 +118,7 @@ class EditingViewController: UIViewController {
     }
     
     func hidePopupView() {
-        
+        editorPopupView.hide()
     }
     
     // MARK: - Layout
@@ -150,6 +151,18 @@ extension EditingViewController: EditorTopBarDelegate {
     
     func actionButonPressed() {
         editorView.capture()
+    }
+}
+
+// MARK: - EditorTabBarPhotosViewDelegate
+
+extension EditingViewController: EditorTabBarPhotosViewDelegate {
+    func editorTabBarPhotosView(_ view: EditorTabBarPhotosView, didTapOnPhoto photo: GFImageInfo) {
+        hidePopupView()
+    }
+    
+    func editorTabBarPhotosViewShouldDismiss(_ view: EditorTabBarPhotosView) {
+        hidePopupView()
     }
 }
 

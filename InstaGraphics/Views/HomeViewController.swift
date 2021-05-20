@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GraphicsFramework
 
 class HomeViewController: UIViewController {
     // MARK: - Lifecycle

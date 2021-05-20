@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GraphicsFramework
 
 public class PhotoProviderService {
     
@@ -23,7 +24,7 @@ public class PhotoProviderService {
         return false
     }
     
-    func loadDefaultPhotos(atPage page: Int, photosPerPage: Int, completion: @escaping ([GFImageInfo], Error?) -> ()) {
+    func loadDefaultPhotos(atPage page: Int, photosPerPage: Int, completion: @escaping (Int, [GFImageInfo], Error?) -> ()) {
         
     }
     

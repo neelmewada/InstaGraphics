@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import GraphicsFramework
 
 /// The base editor view that is to be embedded in another view.
 public class GFEditorView: UIView, UIGestureRecognizerDelegate {
     // MARK: - Lifecycle
     
-    init(document: GFDocument) {
+    public init(document: GFDocument) {
         self.document = document
         super.init(frame: .zero)
         configureCanvas()
@@ -164,18 +165,18 @@ public class GFEditorView: UIView, UIGestureRecognizerDelegate {
     // MARK: - Methods
     
     /// Calls layout setup on canvas
-    func layoutInitialize() {
+    public func layoutInitialize() {
         canvas.layoutInitialize()
         selection.layoutInitialize()
     }
     
     /// Calls layout update on canvas
-    func layoutUpdate() {
+    public func layoutUpdate() {
         canvas.layoutUpdate()
         selection.layoutUpdate()
     }
     
-    func setDocumentResolution(_ newResolution: CGSize) {
+    public func setDocumentResolution(_ newResolution: CGSize) {
         let oldResolution = document.resolution
         document.resolution = newResolution
         canvas.documentResolutionChanged(from: oldResolution, to: newResolution)
@@ -183,7 +184,7 @@ public class GFEditorView: UIView, UIGestureRecognizerDelegate {
         layoutUpdate()
     }
     
-    func capture() {
+    public func capture() {
         canvas.setActualWidth(document.resolution.width)
         canvas.center = center
         
@@ -194,7 +195,7 @@ public class GFEditorView: UIView, UIGestureRecognizerDelegate {
         
         let ac = UIActivityViewController(activityItems: [image!], applicationActivities: nil)
         ac.title = "Share image to..."
-        AppUtils.topViewController?.present(ac, animated: true, completion: nil)
+        //AppUtils.topViewController?.present(ac, animated: true, completion: nil)
     }
     
     // MARK: - Configuration
@@ -231,7 +232,7 @@ public class GFEditorView: UIView, UIGestureRecognizerDelegate {
     }
     
     /// Use this function to configure or re-configure the editor. Call this method ONLY after viewDidAppear is called on the editing view controller
-    func configure(_ config: Configuration) {
+    public func configure() {
         canvas.configure(size: document.resolution, actualScaledWidth: GFUtils.orientationWidth * GFConstants.minCanvasWidthToScreenRatio)
         canvas.center = center
         canvas.background.configureImage(fromAsset: "test-image")
