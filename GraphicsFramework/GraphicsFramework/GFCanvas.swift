@@ -79,7 +79,7 @@ public class GFCanvas: GFView {
     private func configureCanvas() {
         self.translatesAutoresizingMaskIntoConstraints = true
         self.autoresizesSubviews = false
-        self.clipsToBounds = false
+        self.clipsToBounds = true
         backgroundColor = .white
         
         addSubview(background)

@@ -31,6 +31,7 @@ public class PexelsPhotoProviderService: PhotoProviderService {
         return true
     }
     
+    /// Loads a list of curated photos from the Pexels API.
     override func loadDefaultPhotos(atPage page: Int, photosPerPage: Int, completion: @escaping (Int, [GFImageInfo], Error?) -> ()) {
         guard let url = URL(string: "\(Self.curatedPhotosUrl)?page=\(page)&per_page=\(photosPerPage)") else { return }
         var request = URLRequest(url: url)

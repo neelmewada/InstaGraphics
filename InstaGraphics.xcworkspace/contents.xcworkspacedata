@@ -8,6 +8,9 @@
       location = "group:GraphicsFramework/GraphicsFramework.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:../VisualBuilder/VisualBuilder/VisualBuilder.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

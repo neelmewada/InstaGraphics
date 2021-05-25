@@ -251,16 +251,18 @@ public class GFEditorView: UIView, UIGestureRecognizerDelegate {
 // MARK: - Helper Methods
 
 extension GFEditorView {
+    
     public func addImageElement(withImage image: GFImageInfo) {
         let imageElement = GFImageElement(canvas: canvas)
         canvas.addElement(imageElement, at: .zero)
         
         var imageSize = image.urls.last!.imageSize
         let imageAspectRatio = imageSize.width / imageSize.height
-        imageSize.width = canvas.canvasSize.width * 0.5
+        imageSize.width = canvas.originalFrame.width * 0.5
         imageSize.height = imageSize.width / imageAspectRatio
         
-        print("Adding image: \(imageSize) ; \(canvas.canvasSize)")
+        print("Adding image: \(imageSize) ; \(canvas.originalFrame.size)")
         imageElement.configure(withImage: image, size: imageSize, contentMode: .scaleAspectFill)
     }
+    
 }

@@ -8,6 +8,7 @@
 import UIKit
 import GraphicsFramework
 
+
 class EditingViewController: UIViewController {
     // MARK: - Lifecycle
     
@@ -77,24 +78,25 @@ class EditingViewController: UIViewController {
         view.addSubview(editorToolBar)
         editorToolBar.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, spacingLeft: 20, spacingBottom: 130, spacingRight: 20, height: 75)
         
+        view.addSubview(editorTabBar)
+        editorTabBar.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, height: 100)
+        
         view.addSubview(editorPopupView)
         let popupHeight = editorPopupView.popupHeight
         editorPopupView.frame = CGRect(x: 0, y: AppUtils.orientationHeight, width: AppUtils.orientationWidth, height: popupHeight)
         editorPopupView.configureOnFrameSet()
         
-        view.addSubview(editorTabBar)
-        editorTabBar.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, height: 100)
-        
         view.addSubview(editorTopBar)
         editorTopBar.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 100)
         
         editorTopBar.delegate = self
+        editorView.selection.delegate = self
         
         layoutTrait(UIScreen.main.traitCollection)
         configureData()
     }
     
-    /// Called on viewWillAppear
+    /// Called on viewWillAppear.
     private func configureOnAppear() {
         let gradientLayer = CAGradientLayer()
         let color = Constants.primaryBlackColor
@@ -114,11 +116,11 @@ class EditingViewController: UIViewController {
     }
     
     func showPopupView(_ item: EditorTabBarItem) {
-        editorPopupView.show()
+        editorPopupView.showAnimated()
     }
     
     func hidePopupView() {
-        editorPopupView.hide()
+        editorPopupView.hideAnimated()
     }
     
     // MARK: - Layout
@@ -167,5 +169,10 @@ extension EditingViewController: EditorTabBarPhotosViewDelegate {
     }
 }
 
+// MARK: - GFSelectionDelegate
+
+extension EditingViewController: GFSelectionDelegate {
+    
+}
 
 

@@ -78,7 +78,7 @@ public class GFBackground: GFView {
     
     // MARK: - Configuration
     
-    func configure(from info: GFBackgroundInfo) {
+    public func configure(from info: GFBackgroundInfo) {
         self.type = info.type
         switch self.type {
         case .color:
@@ -95,31 +95,31 @@ public class GFBackground: GFView {
         }
     }
     
-    func configureColor(_ color: UIColor) {
+    public func configureColor(_ color: UIColor) {
         self.type = .color
         self.color = color
     }
     
-    func configureGradient(_ gradient: GFGradient) {
+    public func configureGradient(_ gradient: GFGradient) {
         self.type = .gradient
         self.gradient = gradient
     }
     
-    func configureImage(fromAsset named: String, contentMode: ContentMode = .scaleAspectFill) {
+    public func configureImage(fromAsset named: String, contentMode: ContentMode = .scaleAspectFill) {
         self.type = .image
         self.image = .create(withMode: .asset, urls: [GFImageUrl(url: named, imageSize: .zero)])
         imageView?.contentMode = contentMode
         self.contentMode = contentMode
     }
     
-    func configureImage(fromLocalUrls urls: [GFImageUrl], contentMode: ContentMode = .scaleAspectFill) {
+    public func configureImage(fromLocalUrls urls: [GFImageUrl], contentMode: ContentMode = .scaleAspectFill) {
         self.type = .image
         self.image = .create(withMode: .local, urls: urls)
         imageView?.contentMode = contentMode
         self.contentMode = contentMode
     }
     
-    func configureImage(fromRemoteUrls urls: [GFImageUrl], contentMode: ContentMode = .scaleAspectFill) {
+    public func configureImage(fromRemoteUrls urls: [GFImageUrl], contentMode: ContentMode = .scaleAspectFill) {
         self.type = .image
         self.image = .create(withMode: .remote, urls: urls)
         imageView?.contentMode = contentMode

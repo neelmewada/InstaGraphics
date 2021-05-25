@@ -64,7 +64,7 @@ class EditorTabBarPopupView: UIView {
         containerView.anchor(top: gradientView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
         
         containerView.addSubview(contentView)
-        contentView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, spacingLeft: 20, spacingBottom: 110, spacingRight: 20)
+        contentView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, spacingLeft: 20, spacingBottom: 50, spacingRight: 20)
         
         contentView.addSubview(editorPopupItemView)
         editorPopupItemView.fillSuperview()
@@ -95,30 +95,14 @@ class EditorTabBarPopupView: UIView {
         hidePos = self.frame.origin.y
     }
     
-    func show() {
-        if isShown {
-            return
-        }
-        
-        showAnimated()
-    }
-    
-    func hide() {
-        if !isShown {
-            return
-        }
-        
-        hideAnimated()
-    }
-    
-    private func showAnimated() {
+    public func showAnimated() {
         isShown = true
         UIView.animate(withDuration: 0.5, delay: 0) {
             self.frame.origin.y = self.showPos
         }
     }
     
-    private func hideAnimated() {
+    public func hideAnimated() {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.1) {
             self.frame.origin.y = self.hidePos
         } completion: { _ in

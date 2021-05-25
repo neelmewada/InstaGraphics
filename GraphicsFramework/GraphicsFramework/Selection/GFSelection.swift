@@ -153,7 +153,7 @@ public class GFSelection: GFView {
         }
         
         if let target = target as? GFSelectionAnchor {
-            let translation = recognizer.translation(in: self)
+            var translation = recognizer.translation(in: self)
             let resolutionFactor = canvas.resolutionFactor
             let zoomFactor = canvas.zoomFactor
             let widthFactor = zoomFactor * resolutionFactor.width
@@ -245,6 +245,8 @@ public class GFSelection: GFView {
         self.currentDocumentResolution = newRes
     }
 }
+
+// MARK: - GFResizeMode
 
 public enum GFResizeMode {
     case freely
