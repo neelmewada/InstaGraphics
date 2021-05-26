@@ -8,14 +8,13 @@
 import UIKit
 import GraphicsFramework
 
-
 class EditingViewController: UIViewController {
     // MARK: - Lifecycle
     
     init(_ document: GFDocument) {
         self.editorView = GFEditorView(document: document)
         super.init(nibName: nil, bundle: nil)
-        self.editorPopupView.editorPopupItemView.delegate = self
+        self.editorPopupView.editorPopupItemView?.setDelegate(self)
     }
     
     required init?(coder: NSCoder) { return nil }
@@ -23,10 +22,10 @@ class EditingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+        view.layoutIfNeeded()
+        
+        editorView.configure()
+        configureAfterLayout()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -34,9 +33,7 @@ class EditingViewController: UIViewController {
         if viewAppearedAlready {
             return
         }
-        // configure the editor view once
-        editorView.configure()
-        configureOnAppear()
+        
         viewAppearedAlready = true
     }
     
@@ -48,7 +45,7 @@ class EditingViewController: UIViewController {
     
     private let editorView: GFEditorView
     
-    private let editorPopupView = EditorTabBarPopupView(popupHeight: 730)
+    private let editorPopupView = EditorTabBarPopupView(popupHeight: 730, contentView: EditorTabBarPhotosView())
     
     private lazy var editorTabBar = EditorTabBar(showCallback: self.showPopupView)
     private let editorToolBar = EditorToolBar()
@@ -97,7 +94,7 @@ class EditingViewController: UIViewController {
     }
     
     /// Called on viewWillAppear.
-    private func configureOnAppear() {
+    override func configureAfterLayout() {
         let gradientLayer = CAGradientLayer()
         let color = Constants.primaryBlackColor
         gradientLayer.colors = [color.withAlphaComponent(0).cgColor, color.withAlphaComponent(0.5).cgColor, color.withAlphaComponent(1.0).cgColor]
@@ -116,6 +113,9 @@ class EditingViewController: UIViewController {
     }
     
     func showPopupView(_ item: EditorTabBarItem) {
+        guard let itemView = item.itemView else { return }
+        editorPopupView.setContentView(itemView)
+        item.itemView?.setDelegate(self)
         editorPopupView.showAnimated()
     }
     

@@ -31,13 +31,13 @@ class EditorTabBar: UIView {
     }()
     
     public lazy var tabItems: [EditorTabBarItem] = [
-        EditorTabBarItem(imageName: "image-icon", text: "Photos", itemView: EditorTabBarPhotosView()),
-        EditorTabBarItem(imageName: "upload-icon", text: "Uploads", itemView: nil),
-        EditorTabBarItem(imageName: "text-icon", text: "Text", itemView: nil),
-        EditorTabBarItem(imageName: "sticker-icon", text: "Sticker", itemView: nil),
-        EditorTabBarItem(imageName: "shape-icon", text: "Shapes", itemView: nil),
+        EditorTabBarItem(imageName: "image-icon", text: "Photos", contentView: EditorTabBarPhotosView()),
+        EditorTabBarItem(imageName: "upload-icon", text: "Uploads", contentView: nil),
+        EditorTabBarItem(imageName: "text-icon", text: "Text", contentView: nil),
+        EditorTabBarItem(imageName: "sticker-icon", text: "Sticker", contentView: nil),
+        EditorTabBarItem(imageName: "shape-icon", text: "Shapes", contentView: nil),
     ]
-        
+    
     public private(set) var isShown: Bool = false
     
     private var popupOffset: CGFloat = 0
@@ -115,9 +115,16 @@ class EditorTabBar: UIView {
 
 // MARK: - EditorTabBarItemView Protocol
 
-protocol EditorTabBarItemView: UIView {
+protocol EditorPopupContentView: UIView {
     func configureOnLayout()
+    
+    /// Sets the delegate for the content view
+    func setDelegate(_ value: EditorPopupContentViewDelegate)
 }
 
+// MARK: - EditorPopupContentViewDelegate
 
+protocol EditorPopupContentViewDelegate: AnyObject {
+    
+}
 

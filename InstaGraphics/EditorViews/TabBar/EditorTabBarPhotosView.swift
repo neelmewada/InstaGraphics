@@ -8,7 +8,7 @@
 import UIKit
 import GraphicsFramework
 
-class EditorTabBarPhotosView: UIView, EditorTabBarItemView {
+class EditorTabBarPhotosView: UIView, EditorPopupContentView {
     // MARK: - Lifecycle
     
     init() {
@@ -36,7 +36,7 @@ class EditorTabBarPhotosView: UIView, EditorTabBarItemView {
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return view
     }()
-    
+        
     public weak var delegate: EditorTabBarPhotosViewDelegate? = nil
     
     private var photoService: PhotoProviderService = PexelsPhotoProviderService()
@@ -108,13 +108,8 @@ class EditorTabBarPhotosView: UIView, EditorTabBarItemView {
         photoService.loadDefaultPhotos(atPage: page, photosPerPage: Self.imagesPerPage, completion: self.configureData(_:_:_:))
     }
     
-    private func unloadPage(_ page: Int) {
-        if let idx = pageNumbersLoadCalled.firstIndex(of: page) {
-            pageNumbersLoadCalled.remove(at: idx)
-        }
-        print("Unloading page \(page)")
-        self.images.removeValue(forKey: page)
-        self.collectionView.reloadData()
+    public func setDelegate(_ value: EditorPopupContentViewDelegate) {
+        self.delegate = value as? EditorTabBarPhotosViewDelegate
     }
     
     // MARK: - Action
@@ -186,7 +181,7 @@ extension EditorTabBarPhotosView: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Delegate
 
-protocol EditorTabBarPhotosViewDelegate: AnyObject {
+protocol EditorTabBarPhotosViewDelegate: EditorPopupContentViewDelegate {
     func editorTabBarPhotosView(_ view: EditorTabBarPhotosView, didTapOnPhoto photo: GFImageInfo)
     func editorTabBarPhotosViewShouldDismiss(_ view: EditorTabBarPhotosView)
 }

@@ -188,6 +188,14 @@ extension UIView {
     }
 }
 
+// MARK: - UIViewController
+
+extension UIViewController {
+    @objc func configureAfterLayout() {
+        
+    }
+}
+
 // MARK: - UIButton
 
 extension UIButton {

@@ -10,10 +10,10 @@ import UIKit
 class EditorTabBarItem: UIView {
     // MARK: - Lifecycle
     
-    init(imageName: String, text: String, itemView: EditorTabBarItemView?) {
+    init(imageName: String, text: String, contentView: EditorPopupContentView?) {
         self.imageName = imageName
         self.text = text
-        self.itemView = itemView
+        self.itemView = contentView
         super.init(frame: .zero)
         configureView()
     }
@@ -26,7 +26,7 @@ class EditorTabBarItem: UIView {
     
     public let imageName: String
     public let text: String
-    public let itemView: EditorTabBarItemView?
+    public let itemView: EditorPopupContentView?
     
     public lazy var imageView: UIImageView = {
         let view = UIImageView()

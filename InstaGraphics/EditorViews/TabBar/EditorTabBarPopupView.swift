@@ -11,7 +11,7 @@ import GraphicsFramework
 class EditorTabBarPopupView: UIView {
     // MARK: - Lifecycle
     
-    init(popupHeight: CGFloat) {
+    init(popupHeight: CGFloat, contentView: EditorPopupContentView) {
         self.popupHeight = popupHeight
         super.init(frame: .zero)
         configureView()
@@ -40,7 +40,7 @@ class EditorTabBarPopupView: UIView {
     
     private let contentView = UIView()
     
-    public let editorPopupItemView = EditorTabBarPhotosView()
+    public var editorPopupItemView: EditorPopupContentView? = nil
     
     public var popupHeight: CGFloat
     
@@ -66,8 +66,8 @@ class EditorTabBarPopupView: UIView {
         containerView.addSubview(contentView)
         contentView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, spacingLeft: 20, spacingBottom: 50, spacingRight: 20)
         
-        contentView.addSubview(editorPopupItemView)
-        editorPopupItemView.fillSuperview()
+//        contentView.addSubview(editorPopupItemView)
+//        editorPopupItemView.fillSuperview()
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(_:))))
         
@@ -89,10 +89,18 @@ class EditorTabBarPopupView: UIView {
         gradientLayer.frame = gradientView.frame
         gradientView.layer.addSublayer(gradientLayer)
         
-        editorPopupItemView.configureOnLayout()
+        editorPopupItemView?.configureOnLayout()
         
         showPos = self.frame.origin.y - self.popupHeight
         hidePos = self.frame.origin.y
+    }
+    
+    // MARK: - Methods
+    
+    public func setContentView(_ contentView: EditorPopupContentView) {
+        self.editorPopupItemView = contentView
+        self.contentView.addSubview(contentView)
+        contentView.fillSuperview()
     }
     
     public func showAnimated() {
@@ -107,6 +115,8 @@ class EditorTabBarPopupView: UIView {
             self.frame.origin.y = self.hidePos
         } completion: { _ in
             self.isShown = false
+            self.editorPopupItemView?.removeFromSuperview()
+            self.editorPopupItemView = nil
         }
     }
     
