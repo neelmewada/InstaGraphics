@@ -10,10 +10,11 @@ import UIKit
 class EditorTabBarItem: UIView {
     // MARK: - Lifecycle
     
-    init(imageName: String, text: String, contentView: EditorPopupContentView?) {
+    init(imageName: String, text: String, contentView: EditorPopupContentView? = nil, action: EditorTabBarAction? = nil) {
         self.imageName = imageName
         self.text = text
         self.itemView = contentView
+        self.action = action
         super.init(frame: .zero)
         configureView()
     }
@@ -23,6 +24,8 @@ class EditorTabBarItem: UIView {
     // MARK: - Properties
     
     private var tapCallback: ((EditorTabBarItem) -> ())? = nil
+    
+    private var action: EditorTabBarAction? = nil
     
     public let imageName: String
     public let text: String

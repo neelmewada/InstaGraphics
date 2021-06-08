@@ -8,24 +8,11 @@
 import UIKit
 import GraphicsFramework
 
-public class PhotoProviderService {
-    
-    internal init() {
-        
-    }
-    
-    // MARK: - Properties
-    
-    
-    
+public protocol PhotoProviderService {
     // MARK: - Methods
     
-    func canLoadDefaultPhotos() -> Bool {
-        return false
-    }
+    func canLoadDefaultPhotos() -> Bool
     
-    func loadDefaultPhotos(atPage page: Int, photosPerPage: Int, completion: @escaping (Int, [GFImageInfo], Error?) -> ()) {
-        
-    }
+    func loadDefaultPhotos(atPage page: Int, photosPerPage: Int, completion: @escaping (Int, [GFCodableImage], Error?) -> ())
     
 }

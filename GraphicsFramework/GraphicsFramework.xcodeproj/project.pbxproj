@@ -24,14 +24,20 @@
 		5617B45B265553A6002ED5AB /* GFColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5617B45A265553A6002ED5AB /* GFColor.swift */; };
 		5617B45D265553AE002ED5AB /* GFGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5617B45C265553AE002ED5AB /* GFGradient.swift */; };
 		5617B45F265553B6002ED5AB /* GFCodableDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5617B45E265553B6002ED5AB /* GFCodableDocument.swift */; };
-		5617B461265553BF002ED5AB /* GFElementInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5617B460265553BF002ED5AB /* GFElementInfo.swift */; };
-		5617B463265553C8002ED5AB /* GFBackgroundInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5617B462265553C8002ED5AB /* GFBackgroundInfo.swift */; };
-		5617B465265553D0002ED5AB /* GFImageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5617B464265553D0002ED5AB /* GFImageInfo.swift */; };
+		5617B461265553BF002ED5AB /* GFCodableElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5617B460265553BF002ED5AB /* GFCodableElement.swift */; };
+		5617B463265553C8002ED5AB /* GFCodableBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5617B462265553C8002ED5AB /* GFCodableBackground.swift */; };
+		5617B465265553D0002ED5AB /* GFCodableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5617B464265553D0002ED5AB /* GFCodableImage.swift */; };
 		5617B469265553E4002ED5AB /* GFTextElementConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5617B468265553E4002ED5AB /* GFTextElementConfiguration.swift */; };
 		5617B46B265553F1002ED5AB /* GFSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5617B46A265553F1002ED5AB /* GFSelection.swift */; };
 		5617B46D265553F8002ED5AB /* GFSelectionIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5617B46C265553F8002ED5AB /* GFSelectionIndicator.swift */; };
 		5617B46F265553FF002ED5AB /* GFSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5617B46E265553FF002ED5AB /* GFSelectionDelegate.swift */; };
 		5617B47126555406002ED5AB /* GFSelectionAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5617B47026555406002ED5AB /* GFSelectionAnchor.swift */; };
+		562465082662610D00548359 /* GFOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562465072662610D00548359 /* GFOperation.swift */; };
+		5624650C266269F500548359 /* GFOperationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5624650B266269F500548359 /* GFOperationManager.swift */; };
+		5682A54326660D39000F8B33 /* GFAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5682A54226660D39000F8B33 /* GFAction.swift */; };
+		5682A545266610C4000F8B33 /* GFActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5682A544266610C4000F8B33 /* GFActionManager.swift */; };
+		56E67EB8266889EB009070FB /* GFImageElementConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E67EB7266889EB009070FB /* GFImageElementConfiguration.swift */; };
+		56F210FC2662970A000C77CA /* GFCanvasElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F210FB2662970A000C77CA /* GFCanvasElement.swift */; };
 		7D2CFF2E73DCA202DC7700BE /* Pods_GraphicsFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A7E10A5D4FEC2DD3DC6F457 /* Pods_GraphicsFramework.framework */; };
 /* End PBXBuildFile section */
 
@@ -68,16 +74,22 @@
 		5617B45A265553A6002ED5AB /* GFColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFColor.swift; sourceTree = "<group>"; };
 		5617B45C265553AE002ED5AB /* GFGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFGradient.swift; sourceTree = "<group>"; };
 		5617B45E265553B6002ED5AB /* GFCodableDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFCodableDocument.swift; sourceTree = "<group>"; };
-		5617B460265553BF002ED5AB /* GFElementInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFElementInfo.swift; sourceTree = "<group>"; };
-		5617B462265553C8002ED5AB /* GFBackgroundInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFBackgroundInfo.swift; sourceTree = "<group>"; };
-		5617B464265553D0002ED5AB /* GFImageInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFImageInfo.swift; sourceTree = "<group>"; };
+		5617B460265553BF002ED5AB /* GFCodableElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFCodableElement.swift; sourceTree = "<group>"; };
+		5617B462265553C8002ED5AB /* GFCodableBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFCodableBackground.swift; sourceTree = "<group>"; };
+		5617B464265553D0002ED5AB /* GFCodableImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFCodableImage.swift; sourceTree = "<group>"; };
 		5617B468265553E4002ED5AB /* GFTextElementConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFTextElementConfiguration.swift; sourceTree = "<group>"; };
 		5617B46A265553F1002ED5AB /* GFSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFSelection.swift; sourceTree = "<group>"; };
 		5617B46C265553F8002ED5AB /* GFSelectionIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFSelectionIndicator.swift; sourceTree = "<group>"; };
 		5617B46E265553FF002ED5AB /* GFSelectionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFSelectionDelegate.swift; sourceTree = "<group>"; };
 		5617B47026555406002ED5AB /* GFSelectionAnchor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFSelectionAnchor.swift; sourceTree = "<group>"; };
+		562465072662610D00548359 /* GFOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFOperation.swift; sourceTree = "<group>"; };
+		5624650B266269F500548359 /* GFOperationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFOperationManager.swift; sourceTree = "<group>"; };
+		5682A54226660D39000F8B33 /* GFAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFAction.swift; sourceTree = "<group>"; };
+		5682A544266610C4000F8B33 /* GFActionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFActionManager.swift; sourceTree = "<group>"; };
 		569BFAF426563697000DC8BF /* SDWebImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		569BFAF8265636C9000DC8BF /* Pods_InstaGraphics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_InstaGraphics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		56E67EB7266889EB009070FB /* GFImageElementConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFImageElementConfiguration.swift; sourceTree = "<group>"; };
+		56F210FB2662970A000C77CA /* GFCanvasElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFCanvasElement.swift; sourceTree = "<group>"; };
 		D42B3AE44E64722CF9CB82F5 /* Pods-GraphicsFramework.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GraphicsFramework.debug.xcconfig"; path = "Target Support Files/Pods-GraphicsFramework/Pods-GraphicsFramework.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,17 +146,17 @@
 		5617B40526555280002ED5AB /* GraphicsFramework */ = {
 			isa = PBXGroup;
 			children = (
+				5624650A266261A900548359 /* Actions */,
 				5617B43B265552B6002ED5AB /* Selection */,
 				5617B430265552B4002ED5AB /* Configs */,
 				5617B42D265552B4002ED5AB /* Models */,
 				5617B424265552B3002ED5AB /* Elements */,
+				562465092662613900548359 /* Utils */,
 				5617B433265552B5002ED5AB /* GFEditorView.swift */,
 				5617B4462655533E002ED5AB /* GFView.swift */,
 				5617B4482655534C002ED5AB /* GFCanvas.swift */,
 				5617B44A26555356002ED5AB /* GFBackground.swift */,
-				5617B44C26555361002ED5AB /* GFExtensions.swift */,
 				5617B44E2655536A002ED5AB /* GFConstants.swift */,
-				5617B45026555373002ED5AB /* GFUtils.swift */,
 				5617B4522655537D002ED5AB /* GFDocument.swift */,
 				5617B40626555280002ED5AB /* GraphicsFramework.h */,
 				5617B40726555280002ED5AB /* Info.plist */,
@@ -167,6 +179,7 @@
 				5617B45426555388002ED5AB /* GFElement.swift */,
 				5617B45626555392002ED5AB /* GFImageElement.swift */,
 				5617B4582655539D002ED5AB /* GFTextElement.swift */,
+				56F210FB2662970A000C77CA /* GFCanvasElement.swift */,
 			);
 			path = Elements;
 			sourceTree = "<group>";
@@ -177,9 +190,9 @@
 				5617B45A265553A6002ED5AB /* GFColor.swift */,
 				5617B45C265553AE002ED5AB /* GFGradient.swift */,
 				5617B45E265553B6002ED5AB /* GFCodableDocument.swift */,
-				5617B460265553BF002ED5AB /* GFElementInfo.swift */,
-				5617B462265553C8002ED5AB /* GFBackgroundInfo.swift */,
-				5617B464265553D0002ED5AB /* GFImageInfo.swift */,
+				5617B460265553BF002ED5AB /* GFCodableElement.swift */,
+				5617B462265553C8002ED5AB /* GFCodableBackground.swift */,
+				5617B464265553D0002ED5AB /* GFCodableImage.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -188,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				5617B468265553E4002ED5AB /* GFTextElementConfiguration.swift */,
+				56E67EB7266889EB009070FB /* GFImageElementConfiguration.swift */,
 			);
 			path = Configs;
 			sourceTree = "<group>";
@@ -201,6 +215,26 @@
 				5617B47026555406002ED5AB /* GFSelectionAnchor.swift */,
 			);
 			path = Selection;
+			sourceTree = "<group>";
+		};
+		562465092662613900548359 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5617B45026555373002ED5AB /* GFUtils.swift */,
+				5617B44C26555361002ED5AB /* GFExtensions.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		5624650A266261A900548359 /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				562465072662610D00548359 /* GFOperation.swift */,
+				5624650B266269F500548359 /* GFOperationManager.swift */,
+				5682A54226660D39000F8B33 /* GFAction.swift */,
+				5682A544266610C4000F8B33 /* GFActionManager.swift */,
+			);
+			path = Actions;
 			sourceTree = "<group>";
 		};
 		569BFAF326563697000DC8BF /* Frameworks */ = {
@@ -349,9 +383,12 @@
 			files = (
 				5617B44D26555361002ED5AB /* GFExtensions.swift in Sources */,
 				5617B44B26555356002ED5AB /* GFBackground.swift in Sources */,
-				5617B465265553D0002ED5AB /* GFImageInfo.swift in Sources */,
+				5617B465265553D0002ED5AB /* GFCodableImage.swift in Sources */,
 				5617B46B265553F1002ED5AB /* GFSelection.swift in Sources */,
+				5682A54326660D39000F8B33 /* GFAction.swift in Sources */,
 				5617B4492655534C002ED5AB /* GFCanvas.swift in Sources */,
+				56E67EB8266889EB009070FB /* GFImageElementConfiguration.swift in Sources */,
+				56F210FC2662970A000C77CA /* GFCanvasElement.swift in Sources */,
 				5617B46D265553F8002ED5AB /* GFSelectionIndicator.swift in Sources */,
 				5617B43C265552B6002ED5AB /* GFEditorView.swift in Sources */,
 				5617B45F265553B6002ED5AB /* GFCodableDocument.swift in Sources */,
@@ -362,12 +399,15 @@
 				5617B47126555406002ED5AB /* GFSelectionAnchor.swift in Sources */,
 				5617B45D265553AE002ED5AB /* GFGradient.swift in Sources */,
 				5617B469265553E4002ED5AB /* GFTextElementConfiguration.swift in Sources */,
-				5617B463265553C8002ED5AB /* GFBackgroundInfo.swift in Sources */,
+				5617B463265553C8002ED5AB /* GFCodableBackground.swift in Sources */,
 				5617B46F265553FF002ED5AB /* GFSelectionDelegate.swift in Sources */,
 				5617B4472655533E002ED5AB /* GFView.swift in Sources */,
 				5617B4532655537E002ED5AB /* GFDocument.swift in Sources */,
+				562465082662610D00548359 /* GFOperation.swift in Sources */,
+				5624650C266269F500548359 /* GFOperationManager.swift in Sources */,
+				5682A545266610C4000F8B33 /* GFActionManager.swift in Sources */,
 				5617B45726555392002ED5AB /* GFImageElement.swift in Sources */,
-				5617B461265553BF002ED5AB /* GFElementInfo.swift in Sources */,
+				5617B461265553BF002ED5AB /* GFCodableElement.swift in Sources */,
 				5617B4592655539D002ED5AB /* GFTextElement.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

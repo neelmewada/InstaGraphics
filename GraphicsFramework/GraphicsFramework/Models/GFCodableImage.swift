@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 /// Codable struct used to store information about an image obtained from API (Unsplash, Pexels, etc)
-public struct GFImageInfo: Codable {
+public struct GFCodableImage: Codable {
     /// Urls of this image ordered by increasing image resolution. Further the url in this array, higher it's resolution.
     public var urls: [GFImageUrl]
     
@@ -20,8 +20,8 @@ public struct GFImageInfo: Codable {
     public var thumbnailUrl: GFImageUrl = .empty
     
     /// Empty image.
-    public static var empty: GFImageInfo {
-        return GFImageInfo(urls: [])
+    public static var empty: GFCodableImage {
+        return GFCodableImage(urls: [])
     }
     
     /// Returns true if this GFImageInfo represents an empty image.
@@ -34,8 +34,8 @@ public struct GFImageInfo: Codable {
     ///   - mode: Denotes whether the image urls represent a bundle asset, or local directory or a remote image url.
     ///   - urls: Collection of URLs of the same image in increasing order of their resolution.
     /// - Returns: Returns the codable GFImageInfo.
-    public static func create(withMode mode: GFImageMode, urls: [GFImageUrl]) -> GFImageInfo {
-        return GFImageInfo(urls: urls, mode: mode)
+    public static func create(withMode mode: GFImageMode, urls: [GFImageUrl]) -> GFCodableImage {
+        return GFCodableImage(urls: urls, mode: mode)
     }
     
     
@@ -45,8 +45,8 @@ public struct GFImageInfo: Codable {
     ///   - thumbnailUrl: A special URL that represents the thumbnail version of this image.
     ///   - urls: Collection of URLs of the same image in increasing order of their resolution.
     /// - Returns: Returns the codable GFImageInfo.
-    public static func create(withMode mode: GFImageMode, thumbnailUrl: GFImageUrl, urls: [GFImageUrl]) -> GFImageInfo {
-        return GFImageInfo(urls: urls, mode: mode, thumbnailUrl: thumbnailUrl)
+    public static func create(withMode mode: GFImageMode, thumbnailUrl: GFImageUrl, urls: [GFImageUrl]) -> GFCodableImage {
+        return GFCodableImage(urls: urls, mode: mode, thumbnailUrl: thumbnailUrl)
     }
     
     
@@ -56,7 +56,6 @@ public struct GFImageInfo: Codable {
         var minDifference: CGFloat = .infinity
         
         for i in 0..<urls.count {
-            print("imageSize[\(i)] = \(urls[i].imageSize)")
             let diff = ((urls[i].imageSize.width - size.width) + (urls[i].imageSize.height - size.height)) / 2
             if diff < minDifference {
                 minDifference = diff

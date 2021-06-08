@@ -8,11 +8,13 @@
 import UIKit
 
 extension GFTextElement {
-    public struct Configuration {
+    
+    /// Serializable Configuration specific for the GFTextElement.
+    public struct Configuration: Codable {
         var fontName: String? = nil
         var fontSize: CGFloat = 16
-        var textColor: UIColor = .black
-        var initialText: String = "Text"
+        var textColor: GFColor = UIColor.black.gfColor
+        var text: String = "Text"
     }
 }
 

@@ -21,32 +21,33 @@ extension UIView {
                 spacingBottom: CGFloat = 0,
                 spacingRight: CGFloat = 0,
                 width: CGFloat? = nil,
-                height: CGFloat? = nil) {
+                height: CGFloat? = nil,
+                priority: UILayoutPriority = .required) {
         
         translatesAutoresizingMaskIntoConstraints = false
         
         if let top = top {
-            topAnchor.constraint(equalTo: top, constant: spacingTop).isActive = true
+            topAnchor.constraint(equalTo: top, constant: spacingTop).withPriority(priority).isActive = true
         }
         
         if let left = left {
-            leftAnchor.constraint(equalTo: left, constant: spacingLeft).isActive = true
+            leftAnchor.constraint(equalTo: left, constant: spacingLeft).withPriority(priority).isActive = true
         }
         
         if let bottom = bottom {
-            bottomAnchor.constraint(equalTo: bottom, constant: -spacingBottom).isActive = true
+            bottomAnchor.constraint(equalTo: bottom, constant: -spacingBottom).withPriority(priority).isActive = true
         }
         
         if let right = right {
-            rightAnchor.constraint(equalTo: right, constant: -spacingRight).isActive = true
+            rightAnchor.constraint(equalTo: right, constant: -spacingRight).withPriority(priority).isActive = true
         }
         
         if let width = width {
-            widthAnchor.constraint(equalToConstant: width).isActive = true
+            widthAnchor.constraint(equalToConstant: width).withPriority(priority).isActive = true
         }
         
         if let height = height {
-            heightAnchor.constraint(equalToConstant: height).isActive = true
+            heightAnchor.constraint(equalToConstant: height).withPriority(priority).isActive = true
         }
     }
     
@@ -98,7 +99,7 @@ extension UIView {
         return constraints
     }
     
-    func centerInParent() {
+    func centerInSuperview() {
         translatesAutoresizingMaskIntoConstraints = false
         if let superview = superview {
             center(inView: superview)
@@ -185,6 +186,15 @@ extension UIView {
         guard let view = superview else { return }
         anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.safeAreaLayoutGuide.leftAnchor,
                bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.safeAreaLayoutGuide.rightAnchor)
+    }
+}
+
+// MARK: - NSLayoutConstraint
+
+extension NSLayoutConstraint {
+    func withPriority(_ priority: UILayoutPriority) -> Self {
+        self.priority = priority
+        return self
     }
 }
 

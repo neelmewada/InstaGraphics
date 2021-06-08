@@ -7,12 +7,11 @@
 
 import Foundation
 
-class ViewModel {
-    typealias EventCallback = () -> ()
+protocol ViewModel: AnyObject {
+    associatedtype ViewState
     
-    internal var viewModelChanged: EventCallback? = nil
+    typealias RenderStateCallback = (ViewState) -> ()
     
-    func setViewModelChangedCallback(_ callback: @escaping EventCallback) {
-        self.viewModelChanged = callback
-    }
+    /// Use this function to enable View Model class to make render callbacks to the View.
+    func setRenderCallback(_ renderCallback: @escaping RenderStateCallback)
 }

@@ -7,11 +7,13 @@
 
 import UIKit
 
+typealias EditorTabBarAction = () -> ()
+
 class EditorTabBar: UIView {
     // MARK: - Lifecycle
     
-    init(showCallback: @escaping (EditorTabBarItem) -> ()) {
-        self.showCallback = showCallback
+    init(delegate: EditorTabBarDelegate? = nil) {
+        self.delegate = delegate
         super.init(frame: .zero)
         configureView()
     }
@@ -20,7 +22,7 @@ class EditorTabBar: UIView {
     
     // MARK: - Properties
     
-    private let showCallback: (EditorTabBarItem) -> ()
+    public weak var delegate: EditorTabBarDelegate? = nil
     
     private let stackView: UIStackView = {
         let stack = UIStackView()
@@ -73,9 +75,7 @@ class EditorTabBar: UIView {
     // MARK: - Methods
     
     private func tabBarItemTapped(item: EditorTabBarItem) {
-        if let index = tabItems.firstIndex(of: item) {
-            showCallback(item)
-        }
+        delegate?.editorTabBar?(self, didTapOnItem: item)
     }
     
     private func hidePopupView() {
@@ -113,6 +113,14 @@ class EditorTabBar: UIView {
     }
 }
 
+// MARK: - EditorTabBarDelegate
+
+@objc protocol EditorTabBarDelegate {
+    
+    @objc optional func editorTabBar(_ editorTabBar: EditorTabBar, didTapOnItem tappedItem: EditorTabBarItem)
+    
+}
+
 // MARK: - EditorTabBarItemView Protocol
 
 protocol EditorPopupContentView: UIView {
@@ -120,6 +128,8 @@ protocol EditorPopupContentView: UIView {
     
     /// Sets the delegate for the content view
     func setDelegate(_ value: EditorPopupContentViewDelegate)
+    
+    func loadInitialData()
 }
 
 // MARK: - EditorPopupContentViewDelegate

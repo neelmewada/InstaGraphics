@@ -10,8 +10,8 @@ import UIKit
 
 public struct GFCodableDocument: Codable {
     var resolution: CGSize
-    var background: GFBackgroundInfo = GFBackgroundInfo()
-    var elements: [GFElementInfo] = []
+    var background: GFCodableBackground = GFCodableBackground()
+    var elements: [GFCodableElement] = []
     
     private init(_ resolution: CGSize) {
         self.resolution = resolution

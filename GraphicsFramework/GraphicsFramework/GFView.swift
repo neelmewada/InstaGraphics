@@ -13,17 +13,43 @@ public class GFView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
-    }
-    
-    required init?(coder: NSCoder) { return nil }
-    
-    private func setup() {
+        
         self.translatesAutoresizingMaskIntoConstraints = true
         self.autoresizesSubviews = false
     }
     
-    // MARK: - Properties
+    required init?(coder: NSCoder) { return nil }
+    
+    // MARK: - Private Properties
+    
+    private var _position: CGPoint = .zero
+    private var _size: CGSize = .zero
+    
+    // MARK: - Public Properties
+    
+    /// Position of the top-left corner of this view. (CGRect.origin)
+    public var position: CGPoint {
+        get {
+            _position = originalFrame.origin
+            return _position
+        }
+        set {
+            _position = newValue
+            originalFrame.origin = newValue
+        }
+    }
+    
+    /// Size of the view. (CGRect.size)
+    public var size: CGSize {
+        get {
+            _size = originalFrame.size
+            return _size
+        }
+        set {
+            _size = newValue
+            originalFrame.size = newValue
+        }
+    }
     
     /// Sets or gets the current rotation of the element.
     public var rotation: CGFloat = 0 {
@@ -40,8 +66,7 @@ public class GFView: UIView {
             let originalFrame = self.frame
             self.transform = currTransform
             return originalFrame
-        }
-        set(newFrame) {
+        } set(newFrame) {
             let currTransform = self.transform
             self.transform = .identity
             self.frame = newFrame

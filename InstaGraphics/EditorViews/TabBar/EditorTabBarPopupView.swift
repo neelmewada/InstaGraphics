@@ -11,7 +11,7 @@ import GraphicsFramework
 class EditorTabBarPopupView: UIView {
     // MARK: - Lifecycle
     
-    init(popupHeight: CGFloat, contentView: EditorPopupContentView) {
+    init(popupHeight: CGFloat) {
         self.popupHeight = popupHeight
         super.init(frame: .zero)
         configureView()
@@ -29,9 +29,9 @@ class EditorTabBarPopupView: UIView {
     
     public lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = Constants.primaryBlackColor
+        view.backgroundColor = kPrimaryBlackColor
         let layer = CAShapeLayer()
-        layer.fillColor = Constants.primaryGrayColor.cgColor
+        layer.fillColor = kPrimaryGrayColor.cgColor
         let width: CGFloat = 64
         layer.path = UIBezierPath(roundedRect: CGRect(x: AppUtils.orientationWidth / 2 - width / 2, y: 4, width: width, height: 4), cornerRadius: 2).cgPath
         view.layer.addSublayer(layer)
@@ -80,7 +80,7 @@ class EditorTabBarPopupView: UIView {
         let gradientLayer = CAGradientLayer()
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
-        let color = Constants.primaryBlackColor
+        let color = kPrimaryBlackColor
         gradientLayer.colors = [color.withAlphaComponent(0).cgColor,
                                 color.withAlphaComponent(0.5).cgColor,
                                 color.withAlphaComponent(0.75).cgColor,

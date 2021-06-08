@@ -45,14 +45,14 @@ class GFSelectionIndicator: GFView {
     
     // MARK: - Methods
     
-    func removeAllAnchors() {
+    internal func removeAllAnchors() {
         anchorPoints.forEach { anchorPoint in
             anchorPoint.removeFromSuperview()
         }
         anchorPoints.removeAll()
     }
     
-    func setAnchorsVisible(_ visible: Bool) {
+    internal func setAnchorsVisible(_ visible: Bool) {
         anchorPoints.forEach { anchorPoint in
             anchorPoint.isHidden = !visible
         }
@@ -65,7 +65,7 @@ class GFSelectionIndicator: GFView {
         anchorPoints.append(anchorPoint)
     }
     
-    // MARK: - Overrids
+    // MARK: - Overrides
     
     override func layoutInitialize() {
         super.layoutInitialize()
@@ -82,12 +82,14 @@ class GFSelectionIndicator: GFView {
         borderLayer.frame = self.bounds
         borderLayer.path = UIBezierPath(rect: borderLayer.bounds).cgPath
         
-        addAnchorPoint(ofType: .circle, at: .topLeft)
-        addAnchorPoint(ofType: .circle, at: .topRight)
-        addAnchorPoint(ofType: .circle, at: .bottomLeft)
-        addAnchorPoint(ofType: .circle, at: .bottomRight)
-        
-        addAnchorPoint(ofType: .rotator, at: .stack(0, 1))
+        if element.type != .canvas { // 'canvas' represents GFCanvasElement (background)
+            addAnchorPoint(ofType: .circle, at: .topLeft)
+            addAnchorPoint(ofType: .circle, at: .topRight)
+            addAnchorPoint(ofType: .circle, at: .bottomLeft)
+            addAnchorPoint(ofType: .circle, at: .bottomRight)
+            
+            addAnchorPoint(ofType: .rotator, at: .stack(0, 1))
+        }
         
         anchorPoints.forEach { anchor in
             anchor.layoutInitialize()

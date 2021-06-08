@@ -10,12 +10,20 @@ import UIKit
 public class GFTextElement: GFElement, UITextViewDelegate {
     // MARK: - Lifecycle
     
-    override public init(canvas: GFCanvas) {
-        super.init(canvas: canvas)
+    override public init(canvas: GFCanvas, id: String? = nil) {
+        super.init(canvas: canvas, id: id)
         configureElement()
     }
     
+    internal init?(from serializedElement: GFCodableElement, canvas: GFCanvas) {
+        super.init(canvas: canvas, id: serializedElement.id)
+        if !configure(from: serializedElement) {
+            return nil
+        }
+    }
+    
     required init?(coder: NSCoder) { return nil }
+    
     
     // MARK: - Properties
     
@@ -24,7 +32,7 @@ public class GFTextElement: GFElement, UITextViewDelegate {
     }
     
     public override var resizeMode: GFResizeMode {
-        return .freely
+        return .free
     }
     
     private lazy var textView: UITextView = {
@@ -33,6 +41,7 @@ public class GFTextElement: GFElement, UITextViewDelegate {
         textView.backgroundColor = .clear
         textView.font = UIFont.systemFont(ofSize: 18)
         textView.textColor = .black
+        textView.allowsEditingTextAttributes = true
         textView.isScrollEnabled = false
         textView.isEditable = false
         textView.isUserInteractionEnabled = false
@@ -57,20 +66,46 @@ public class GFTextElement: GFElement, UITextViewDelegate {
         addSubview(textView)
     }
     
-    public func configure(_ config: GFTextElement.Configuration) {
+    @discardableResult public override func configure(from serializedElement: GFCodableElement) -> Bool {
+        if serializedElement.elementType != .text {
+            return false
+        }
+        
+        background.configure(from: serializedElement.background)
+        
+        self.position = serializedElement.position
+        self.size = serializedElement.size
+        self.rotation = serializedElement.rotation
+        
+        self.configure(serializedElement.textConfig)
+        
+        return true
+    }
+    
+    /// Configure the text element from the given configuration.
+    /// - Parameter config: The configuration for the text element.
+    public func configure(_ config: Configuration) {
         if let fontName = config.fontName {
             textView.font = UIFont(name: fontName, size: config.fontSize)
         } else {
             textView.font = UIFont.systemFont(ofSize: config.fontSize)
         }
-        textView.textColor = config.textColor
-        textView.text = config.initialText
+        
+        textView.textColor = config.textColor.uiColor
+        textView.text = config.text
         textViewUpdated()
     }
     
     public func configure(fontSize: CGFloat) {
         textView.font = textView.font?.withSize(fontSize)
         textViewUpdated()
+    }
+    
+    public func getConfiguration() -> Configuration {
+        return Configuration(fontName: textView.font?.fontName,
+                             fontSize: textView.font?.pointSize ?? 16,
+                             textColor: textView.textColor?.gfColor ?? UIColor.black.gfColor,
+                             text: textView.text)
     }
     
     // MARK: - Methods
@@ -82,10 +117,11 @@ public class GFTextElement: GFElement, UITextViewDelegate {
         canvas?.editor?.layoutUpdate()
     }
     
-    override func setEditing(_ set: Bool) {
+    override public func setEditing(_ set: Bool) {
         super.setEditing(set)
         textView.isEditable = set
         textView.isUserInteractionEnabled = set
+        
         if set {
             textView.becomeFirstResponder()
         } else {
@@ -96,6 +132,12 @@ public class GFTextElement: GFElement, UITextViewDelegate {
     }
     
     // MARK: - Overrides
+    
+    public override func createDuplicate() -> GFTextElement {
+        let duplicate = GFTextElement(canvas: canvas)
+        duplicate.configure(from: self.serializedValue)
+        return duplicate
+    }
     
     override func layoutInitialize() {
         super.layoutInitialize()
@@ -116,13 +158,12 @@ public class GFTextElement: GFElement, UITextViewDelegate {
     }
     
     override func viewDoubleTapped() {
-        setEditing(true)
-        canvas?.editor?.layoutUpdate()
+        
     }
     
     override func elementDeselected() {
         super.elementDeselected()
-        setEditing(false)
+        //setEditing(false)
         
         if text.isEmpty {
             canvas?.removeElement(self)

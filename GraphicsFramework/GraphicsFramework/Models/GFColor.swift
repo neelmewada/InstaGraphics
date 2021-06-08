@@ -10,25 +10,33 @@ import UIKit
 
 /// A codable color data structure.
 public struct GFColor: Codable {
-    var red: CGFloat = 0.0, green: CGFloat = 0.0, blue: CGFloat = 0.0, alpha: CGFloat = 0.0
+    // MARK: - Properties
     
-    var uiColor: UIColor {
+    public var red: CGFloat = 0.0, green: CGFloat = 0.0, blue: CGFloat = 0.0, alpha: CGFloat = 0.0
+    
+    public var uiColor: UIColor {
         return UIColor(red: red, green: green, blue: blue, alpha: alpha)
     }
     
-    var cgColor: CGColor {
+    public var cgColor: CGColor {
         return CGColor(red: red, green: green, blue: blue, alpha: alpha)
     }
     
-    init() {
+    public static var clear: GFColor {
+        return GFColor()
+    }
+    
+    // MARK: - Initializers
+    
+    public init() {
         
     }
     
-    init(uiColor : UIColor) {
+    public init(uiColor : UIColor) {
         uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
     }
     
-    init(cgColor : CGColor) {
+    public init(cgColor : CGColor) {
         self.init(uiColor: UIColor(cgColor: cgColor))
     }
 }

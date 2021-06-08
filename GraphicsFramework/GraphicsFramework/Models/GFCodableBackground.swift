@@ -8,17 +8,17 @@
 import Foundation
 import UIKit
 
-public struct GFBackgroundInfo: Codable {
+public struct GFCodableBackground: Codable {
     var type: GFBackgroundType = .clear
-    var image: GFImageInfo = GFImageInfo(urls: [])
-    var color: GFColor = GFColor()
-    var gradient: GFGradient = GFGradient()
+    var image: GFCodableImage = .empty
+    var color: GFColor = .clear
+    var gradient: GFGradient = .empty
     
     /// The overall opacity that is multiplied to the background.
     var opacity: CGFloat = 1.0
     
-    public static var clear: GFBackgroundInfo {
-        return GFBackgroundInfo(type: .clear, opacity: 0.0)
+    public static var clear: GFCodableBackground {
+        return GFCodableBackground(type: .clear, opacity: 0.0)
     }
 }
 

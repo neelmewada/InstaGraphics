@@ -15,14 +15,15 @@ class EditingViewController: UIViewController {
         self.editorView = GFEditorView(document: document)
         super.init(nibName: nil, bundle: nil)
         self.editorPopupView.editorPopupItemView?.setDelegate(self)
+        editorView.delegate = self
     }
     
     required init?(coder: NSCoder) { return nil }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureViewController()
-        view.layoutIfNeeded()
+        configureViewController() // Configure UI
+        view.layoutIfNeeded() // layout subviews
         
         editorView.configure()
         configureAfterLayout()
@@ -30,11 +31,6 @@ class EditingViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if viewAppearedAlready {
-            return
-        }
-        
-        viewAppearedAlready = true
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -45,13 +41,11 @@ class EditingViewController: UIViewController {
     
     private let editorView: GFEditorView
     
-    private let editorPopupView = EditorTabBarPopupView(popupHeight: 730, contentView: EditorTabBarPhotosView())
+    private let editorPopupView = EditorTabBarPopupView(popupHeight: 730)
     
-    private lazy var editorTabBar = EditorTabBar(showCallback: self.showPopupView)
-    private let editorToolBar = EditorToolBar()
+    private lazy var editorTabBar = EditorTabBar(delegate: self)
+    private lazy var editorToolBar = EditorToolBar(editor: editorView)
     private let editorTopBar = EditorTopBar()
-    
-    private var viewAppearedAlready = false
     
     private let bottomGradient: UIView = {
         let view = UIView()
@@ -74,6 +68,7 @@ class EditingViewController: UIViewController {
         
         view.addSubview(editorToolBar)
         editorToolBar.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, spacingLeft: 20, spacingBottom: 130, spacingRight: 20, height: 75)
+        editorToolBar.delegate = self
         
         view.addSubview(editorTabBar)
         editorTabBar.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, height: 100)
@@ -87,7 +82,7 @@ class EditingViewController: UIViewController {
         editorTopBar.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 100)
         
         editorTopBar.delegate = self
-        editorView.selection.delegate = self
+        editorView.selection.delegates.append(Weak(self))
         
         layoutTrait(UIScreen.main.traitCollection)
         configureData()
@@ -96,7 +91,7 @@ class EditingViewController: UIViewController {
     /// Called on viewWillAppear.
     override func configureAfterLayout() {
         let gradientLayer = CAGradientLayer()
-        let color = Constants.primaryBlackColor
+        let color = kPrimaryBlackColor
         gradientLayer.colors = [color.withAlphaComponent(0).cgColor, color.withAlphaComponent(0.5).cgColor, color.withAlphaComponent(1.0).cgColor]
         gradientLayer.locations = [0, 0.2, 0.6]
         let size = bottomGradient.layer.frame.size
@@ -112,15 +107,13 @@ class EditingViewController: UIViewController {
         
     }
     
-    func showPopupView(_ item: EditorTabBarItem) {
-        guard let itemView = item.itemView else { return }
-        editorPopupView.setContentView(itemView)
-        item.itemView?.setDelegate(self)
-        editorPopupView.showAnimated()
-    }
-    
     func hidePopupView() {
         editorPopupView.hideAnimated()
+    }
+    
+    func validateUndoRedo() {
+        editorTopBar.undoButton.isEnabled = editorView.operationManager.undosRemaining > 0
+        editorTopBar.redoButton.isEnabled = editorView.operationManager.redosRemaining > 0
     }
     
     // MARK: - Layout
@@ -143,23 +136,56 @@ class EditingViewController: UIViewController {
     }
 }
 
+// MARK: - EditorTabBarDelegate
+
+extension EditingViewController: EditorTabBarDelegate {
+    
+    func editorTabBar(_ editorTabBar: EditorTabBar, didTapOnItem item: EditorTabBarItem) {
+        guard let itemView = item.itemView else { return }
+        editorPopupView.setContentView(itemView)
+        item.itemView?.setDelegate(self)
+        editorPopupView.showAnimated()
+        itemView.loadInitialData()
+    }
+}
+
 
 // MARK: - EditorTopBarDelegate
 
 extension EditingViewController: EditorTopBarDelegate {
-    func backButtonPressed() {
-        AppUtils.popVCFromNavigation(animated: true)
+    func editorTopBarDidPressBackButton() {
+        navigationController?.popViewController(animated: true)
     }
     
-    func actionButonPressed() {
+    func editorTopBarDidPressActionButton() {
         editorView.capture()
     }
+    
+    func editorTopBarDidPressUndoButton() {
+        editorView.operationManager.undoOperation()
+        validateUndoRedo()
+    }
+    
+    func editorTopBarDidPressRedoButton() {
+        editorView.operationManager.redoOperation()
+        validateUndoRedo()
+    }
+}
+
+// MARK: - GFEditorViewDelegate
+
+extension EditingViewController: GFEditorViewDelegate {
+    
+    func editorViewDidChange(_ editorView: GFEditorView) {
+        validateUndoRedo()
+    }
+    
 }
 
 // MARK: - EditorTabBarPhotosViewDelegate
 
 extension EditingViewController: EditorTabBarPhotosViewDelegate {
-    func editorTabBarPhotosView(_ view: EditorTabBarPhotosView, didTapOnPhoto photo: GFImageInfo) {
+    func editorTabBarPhotosView(_ view: EditorTabBarPhotosView, didTapOnPhoto photo: GFCodableImage) {
         hidePopupView()
         editorView.addImageElement(withImage: photo)
     }
@@ -172,6 +198,31 @@ extension EditingViewController: EditorTabBarPhotosViewDelegate {
 // MARK: - GFSelectionDelegate
 
 extension EditingViewController: GFSelectionDelegate {
+    
+    func selection(_ selection: GFSelection, didChangeFrom initialSelection: [GFElement], to finalSelection: [GFElement]) {
+        if let selectedElement = selection.selection, selection.isActive,
+           let context = selectedElement as? EditorToolBarContext {
+            print("Context casted successfully for element: \(selectedElement)")
+            editorToolBar.configure(context)
+            editorToolBar.show()
+        } else {
+            if let selectedElement = selection.selection {
+                print("FAILED to cast context for element: \(selectedElement)")
+            }
+            editorToolBar.hide()
+        }
+    }
+    
+    func selectionStateDidChange(_ selection: GFSelection) {
+        validateUndoRedo()
+    }
+}
+
+// MARK: - EditorToolBarDelegate
+
+extension EditingViewController: EditorToolBarDelegate {
+    
+    
     
 }
 

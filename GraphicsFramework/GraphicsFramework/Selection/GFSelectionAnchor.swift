@@ -142,6 +142,7 @@ public enum GFSelectionAnchorType {
     case circle
     case rectangle
     case rotator
+    case translator
 }
 
 // MARK: - GFSelectionAnchorPosition

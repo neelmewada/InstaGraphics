@@ -40,7 +40,7 @@ class EditorTabBarPhotosView: UIView, EditorPopupContentView {
     public weak var delegate: EditorTabBarPhotosViewDelegate? = nil
     
     private var photoService: PhotoProviderService = PexelsPhotoProviderService()
-    private var images: [Int: [GFImageInfo]] = [:]
+    private var images: [Int: [GFCodableImage]] = [:]
     private var pageNumbersLoadCalled: [Int] = []
     private static let imagesPerPage = 50
     
@@ -69,7 +69,7 @@ class EditorTabBarPhotosView: UIView, EditorPopupContentView {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        loadPage(1)
+        //loadPage(1)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         self.collectionView.addGestureRecognizer(tapGesture)
@@ -78,11 +78,15 @@ class EditorTabBarPhotosView: UIView, EditorPopupContentView {
         self.collectionView.addGestureRecognizer(longPressGesture)
     }
     
+    public func loadInitialData() {
+        loadPage(1)
+    }
+    
     public func configureOnLayout() {
         
     }
     
-    private func configureData(_ page: Int, _ images: [GFImageInfo], _ error: Error? = nil) {
+    private func configureData(_ page: Int, _ images: [GFCodableImage], _ error: Error? = nil) {
         if let error = error {
             print("Error getting images from \(photoService)")
             print("\(error)")
@@ -104,7 +108,7 @@ class EditorTabBarPhotosView: UIView, EditorPopupContentView {
         print("Loading page \(page)")
         
         // Load placeholder/empty images to fill the spots temporarily.
-        self.images[page] = [GFImageInfo](repeating: .empty, count: Self.imagesPerPage)
+        self.images[page] = [GFCodableImage](repeating: .empty, count: Self.imagesPerPage)
         photoService.loadDefaultPhotos(atPage: page, photosPerPage: Self.imagesPerPage, completion: self.configureData(_:_:_:))
     }
     
@@ -182,6 +186,6 @@ extension EditorTabBarPhotosView: UICollectionViewDelegateFlowLayout {
 // MARK: - Delegate
 
 protocol EditorTabBarPhotosViewDelegate: EditorPopupContentViewDelegate {
-    func editorTabBarPhotosView(_ view: EditorTabBarPhotosView, didTapOnPhoto photo: GFImageInfo)
+    func editorTabBarPhotosView(_ view: EditorTabBarPhotosView, didTapOnPhoto photo: GFCodableImage)
     func editorTabBarPhotosViewShouldDismiss(_ view: EditorTabBarPhotosView)
 }

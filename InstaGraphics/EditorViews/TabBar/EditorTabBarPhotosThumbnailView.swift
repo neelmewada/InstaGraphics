@@ -29,7 +29,7 @@ class EditorTabBarPhotosThumbnailView: UICollectionViewCell {
         return imageView
     }()
     
-    public private(set) var image: GFImageInfo? = nil
+    public private(set) var image: GFCodableImage? = nil
     
     // MARK: - Configuration
     
@@ -37,11 +37,11 @@ class EditorTabBarPhotosThumbnailView: UICollectionViewCell {
         backgroundColor = .clear
         
         addSubview(imageView)
-        imageView.centerInParent()
+        imageView.centerInSuperview()
         imageView.setDimensions(height: 118, width: 118)
     }
     
-    public func configureData(_ image: GFImageInfo) {
+    public func configureData(_ image: GFCodableImage) {
         self.image = image
         if !image.thumbnailUrl.url.isEmpty {
             imageView.sd_setImage(with: URL(string: image.thumbnailUrl.url), placeholderImage: imageView.image)

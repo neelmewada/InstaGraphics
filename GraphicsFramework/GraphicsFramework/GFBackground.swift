@@ -28,6 +28,7 @@ public class GFBackground: GFView {
     private var imageView: UIImageView? = nil
     
     public private(set) var type: GFBackgroundType = .clear
+    
     public var backgroundContentMode: ContentMode = .scaleAspectFill {
         didSet {
             updateContentMode()
@@ -70,23 +71,27 @@ public class GFBackground: GFView {
         }
     }
     
-    public private(set) var image: GFImageInfo = .empty {
+    public private(set) var image: GFCodableImage = .empty {
         didSet {
             updateImageView()
         }
     }
     
+    public var serializedValue: GFCodableBackground {
+        return GFCodableBackground(type: type, image: image, color: color.gfColor, gradient: gradient, opacity: alpha)
+    }
+    
     // MARK: - Configuration
     
-    public func configure(from info: GFBackgroundInfo) {
-        self.type = info.type
+    public func configure(from serializedBackground: GFCodableBackground) {
+        self.type = serializedBackground.type
         switch self.type {
         case .color:
-            color = info.color.uiColor
+            color = serializedBackground.color.uiColor
         case .gradient:
-            gradient = info.gradient
+            gradient = serializedBackground.gradient
         case .image:
-            image = info.image
+            image = serializedBackground.image
         case .clear:
             image = .empty
             color = .clear

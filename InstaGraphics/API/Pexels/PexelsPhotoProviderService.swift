@@ -11,8 +11,8 @@ import GraphicsFramework
 /// Photo Provider Service used to retreive photos from Pexels.
 public class PexelsPhotoProviderService: PhotoProviderService {
     
-    override public init() {
-        super.init()
+    public init() {
+        
     }
     
     // MARK: - Private Properties
@@ -27,12 +27,12 @@ public class PexelsPhotoProviderService: PhotoProviderService {
     
     // MARK: - Overrides
     
-    override func canLoadDefaultPhotos() -> Bool {
+    public func canLoadDefaultPhotos() -> Bool {
         return true
     }
     
     /// Loads a list of curated photos from the Pexels API.
-    override func loadDefaultPhotos(atPage page: Int, photosPerPage: Int, completion: @escaping (Int, [GFImageInfo], Error?) -> ()) {
+    public func loadDefaultPhotos(atPage page: Int, photosPerPage: Int, completion: @escaping (Int, [GFCodableImage], Error?) -> ()) {
         guard let url = URL(string: "\(Self.curatedPhotosUrl)?page=\(page)&per_page=\(photosPerPage)") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -53,10 +53,10 @@ public class PexelsPhotoProviderService: PhotoProviderService {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let result = try decoder.decode(PexelsCuratedResult.self, from: data)
                 
-                var images = [GFImageInfo]()
+                var images = [GFCodableImage]()
                 for photo in result.photos {
                     let urls = photo.src
-                    let image = GFImageInfo.create(withMode: .remote,
+                    let image = GFCodableImage.create(withMode: .remote,
                                                    thumbnailUrl: .fromString(urls.tiny),
                                                    urls: [.fromString(urls.small),
                                                           .fromString(urls.tiny),
@@ -73,7 +73,7 @@ public class PexelsPhotoProviderService: PhotoProviderService {
                     completion(page, images, nil)
                 }
             } catch {
-                print("Error fetching default photos from response. \(error)")
+                print("Error fetching default photos from Pexels response. \(error)")
                 DispatchQueue.main.async {
                     completion(page, [], error)
                 }

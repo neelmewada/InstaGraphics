@@ -10,6 +10,13 @@
 		32876D10FCD53AF1A083E448 /* Pods_InstaGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81DE9060C2D0977511AFED8B /* Pods_InstaGraphics.framework */; };
 		5617B41E2655529D002ED5AB /* GraphicsFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5617B41D2655529D002ED5AB /* GraphicsFramework.framework */; };
 		5617B41F2655529D002ED5AB /* GraphicsFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5617B41D2655529D002ED5AB /* GraphicsFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		561FD0EA266A4CB700A6FB2A /* EditorToolBarContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561FD0E9266A4CB700A6FB2A /* EditorToolBarContext.swift */; };
+		561FD0ED266A4EAC00A6FB2A /* GFImageElementContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561FD0EC266A4EAC00A6FB2A /* GFImageElementContext.swift */; };
+		561FD0F0266B9DBD00A6FB2A /* EditorToolBarPopupAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561FD0EF266B9DBD00A6FB2A /* EditorToolBarPopupAttribute.swift */; };
+		561FD0F2266BA2E400A6FB2A /* EditorToolBarPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561FD0F1266BA2E400A6FB2A /* EditorToolBarPopupView.swift */; };
+		561FD0F4266BA46D00A6FB2A /* EditorToolBarPopupViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561FD0F3266BA46D00A6FB2A /* EditorToolBarPopupViewConfiguration.swift */; };
+		562465022661F77900548359 /* EditorToolBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562465012661F77900548359 /* EditorToolBarItemView.swift */; };
+		5624650426622C0500548359 /* EditorToolBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5624650326622C0500548359 /* EditorToolBarItem.swift */; };
 		562925382652C44D00261A35 /* EditorTabBarPhotosThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562925372652C44D00261A35 /* EditorTabBarPhotosThumbnailView.swift */; };
 		564F0F37263D8A8B00F74D5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564F0F36263D8A8B00F74D5B /* AppDelegate.swift */; };
 		564F0F39263D8A8B00F74D5B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564F0F38263D8A8B00F74D5B /* SceneDelegate.swift */; };
@@ -66,6 +73,13 @@
 
 /* Begin PBXFileReference section */
 		5617B41D2655529D002ED5AB /* GraphicsFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GraphicsFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		561FD0E9266A4CB700A6FB2A /* EditorToolBarContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorToolBarContext.swift; sourceTree = "<group>"; };
+		561FD0EC266A4EAC00A6FB2A /* GFImageElementContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFImageElementContext.swift; sourceTree = "<group>"; };
+		561FD0EF266B9DBD00A6FB2A /* EditorToolBarPopupAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorToolBarPopupAttribute.swift; sourceTree = "<group>"; };
+		561FD0F1266BA2E400A6FB2A /* EditorToolBarPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorToolBarPopupView.swift; sourceTree = "<group>"; };
+		561FD0F3266BA46D00A6FB2A /* EditorToolBarPopupViewConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorToolBarPopupViewConfiguration.swift; sourceTree = "<group>"; };
+		562465012661F77900548359 /* EditorToolBarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorToolBarItemView.swift; sourceTree = "<group>"; };
+		5624650326622C0500548359 /* EditorToolBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorToolBarItem.swift; sourceTree = "<group>"; };
 		562925372652C44D00261A35 /* EditorTabBarPhotosThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorTabBarPhotosThumbnailView.swift; sourceTree = "<group>"; };
 		564F0F33263D8A8B00F74D5B /* InstaGraphics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaGraphics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		564F0F36263D8A8B00F74D5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +146,24 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		561FD0EB266A4E9C00A6FB2A /* Contexts */ = {
+			isa = PBXGroup;
+			children = (
+				561FD0EC266A4EAC00A6FB2A /* GFImageElementContext.swift */,
+			);
+			path = Contexts;
+			sourceTree = "<group>";
+		};
+		561FD0EE266B9D9300A6FB2A /* Popup */ = {
+			isa = PBXGroup;
+			children = (
+				561FD0EF266B9DBD00A6FB2A /* EditorToolBarPopupAttribute.swift */,
+				561FD0F1266BA2E400A6FB2A /* EditorToolBarPopupView.swift */,
+				561FD0F3266BA46D00A6FB2A /* EditorToolBarPopupViewConfiguration.swift */,
+			);
+			path = Popup;
+			sourceTree = "<group>";
+		};
 		564F0F2A263D8A8B00F74D5B = {
 			isa = PBXGroup;
 			children = (
@@ -195,6 +227,11 @@
 		5672A9BA264420B900BC954A /* ToolBar */ = {
 			isa = PBXGroup;
 			children = (
+				561FD0EE266B9D9300A6FB2A /* Popup */,
+				561FD0EB266A4E9C00A6FB2A /* Contexts */,
+				562465012661F77900548359 /* EditorToolBarItemView.swift */,
+				5624650326622C0500548359 /* EditorToolBarItem.swift */,
+				561FD0E9266A4CB700A6FB2A /* EditorToolBarContext.swift */,
 			);
 			path = ToolBar;
 			sourceTree = "<group>";
@@ -418,6 +455,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				562465022661F77900548359 /* EditorToolBarItemView.swift in Sources */,
 				567340C1265145A800E4F23A /* PhotoProviderService.swift in Sources */,
 				56A9BA3E26413E4B00D12BF4 /* EditingViewController.swift in Sources */,
 				56A9BA2C2641229000D12BF4 /* Extensions.swift in Sources */,
@@ -433,19 +471,25 @@
 				56A9BA30264123AF00D12BF4 /* FileManagement.swift in Sources */,
 				5672A9B926441A4700BC954A /* EditorToolBar.swift in Sources */,
 				564F0F37263D8A8B00F74D5B /* AppDelegate.swift in Sources */,
+				561FD0EA266A4CB700A6FB2A /* EditorToolBarContext.swift in Sources */,
 				567340C72651514B00E4F23A /* APIService.swift in Sources */,
 				56A9BA6626428AB800D12BF4 /* HomeViewController.swift in Sources */,
 				56A9BA3C26413C2B00D12BF4 /* RootNavigationController.swift in Sources */,
 				56A9BA3626412C0B00D12BF4 /* Events.swift in Sources */,
+				561FD0ED266A4EAC00A6FB2A /* GFImageElementContext.swift in Sources */,
 				56A9BA3426412ABD00D12BF4 /* AppModel.swift in Sources */,
 				5672A9B02643F48900BC954A /* EditorTabBar.swift in Sources */,
 				5672A9B52644034400BC954A /* EditorTabBarItem.swift in Sources */,
 				56A9BA2E2641237B00D12BF4 /* StringValidation.swift in Sources */,
+				561FD0F0266B9DBD00A6FB2A /* EditorToolBarPopupAttribute.swift in Sources */,
 				564F0F4C263E636C00F74D5B /* TestEditableView.swift in Sources */,
 				56A9BA322641250700D12BF4 /* ViewModel.swift in Sources */,
 				564F0F39263D8A8B00F74D5B /* SceneDelegate.swift in Sources */,
+				5624650426622C0500548359 /* EditorToolBarItem.swift in Sources */,
 				562925382652C44D00261A35 /* EditorTabBarPhotosThumbnailView.swift in Sources */,
 				5672A9B72644164B00BC954A /* Constants.swift in Sources */,
+				561FD0F2266BA2E400A6FB2A /* EditorToolBarPopupView.swift in Sources */,
+				561FD0F4266BA46D00A6FB2A /* EditorToolBarPopupViewConfiguration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

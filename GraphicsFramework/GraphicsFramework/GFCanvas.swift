@@ -12,9 +12,9 @@ public class GFCanvas: GFView {
     
     init(editor: GFEditorView, document: GFDocument) {
         self.document = document
+        self.editorView = editor
         self.baseResolution = document.resolution
         super.init(frame: .zero)
-        self.editorView = editor
         configureCanvas()
     }
     
@@ -58,13 +58,13 @@ public class GFCanvas: GFView {
     
     public private(set) var document: GFDocument
     
-    public private(set) lazy var background = GFBackground(self)
+    public private(set) lazy var canvasElement = GFCanvasElement(canvas: self)
     
     private var elements: [GFElement] = []
     
-    private weak var editorView: GFEditorView? = nil
+    private weak var editorView: GFEditorView!
     
-    public weak var editor: GFEditorView? {
+    public weak var editor: GFEditorView! {
         return editorView
     }
     
@@ -82,7 +82,7 @@ public class GFCanvas: GFView {
         self.clipsToBounds = true
         backgroundColor = .white
         
-        addSubview(background)
+        addSubview(canvasElement)
     }
     
     /// You need to call this function to configure the canvas.
@@ -91,13 +91,13 @@ public class GFCanvas: GFView {
         setActualWidth(actualScaledWidth)
     }
     
-    // MARK: - Methods
+    // MARK: - Overrides
     
     override func layoutInitialize() {
         super.layoutInitialize()
         let zoomFactor = editorView!.zoomFactor
-        background.layoutInitialize()
-        background.frame = CGRect(x: 0, y: 0, width: frame.size.width / zoomFactor, height: frame.size.height / zoomFactor)
+        canvasElement.layoutInitialize()
+        canvasElement.frame = CGRect(x: 0, y: 0, width: frame.size.width / zoomFactor, height: frame.size.height / zoomFactor)
         
         elements.forEach { el in
             el.layoutInitialize()
@@ -107,7 +107,7 @@ public class GFCanvas: GFView {
     /// Called when layout/bounds of a parent view or this view changed.
     override func layoutUpdate() {
         super.layoutUpdate()
-        background.layoutUpdate()
+        canvasElement.layoutUpdate()
         
         elements.forEach { el in
             el.layoutUpdate()
@@ -118,7 +118,7 @@ public class GFCanvas: GFView {
         super.documentResolutionChanged(from: oldRes, to: newRes)
         setScaleToMatch(finalActualSize: newRes)
         
-        background.documentResolutionChanged(from: oldRes, to: newRes)
+        canvasElement.documentResolutionChanged(from: oldRes, to: newRes)
         
         elements.forEach { el in
             el.documentResolutionChanged(from: oldRes, to: newRes)
@@ -127,7 +127,7 @@ public class GFCanvas: GFView {
     
     override func prepareForRender() {
         super.prepareForRender()
-        background.prepareForRender()
+        canvasElement.prepareForRender()
         
         elements.forEach { el in
             el.prepareForRender()
@@ -136,12 +136,14 @@ public class GFCanvas: GFView {
     
     override func unprepareAfterRender() {
         super.unprepareAfterRender()
-        background.unprepareAfterRender()
+        canvasElement.unprepareAfterRender()
         
         elements.forEach { el in
             el.unprepareAfterRender()
         }
     }
+    
+    // MARK: - Methods
     
     /// Scales the canvas' transform by the given scale.
     func scaleBy(_ scale: CGFloat) {
@@ -172,17 +174,77 @@ public class GFCanvas: GFView {
         scaleBy(factor)
     }
     
+    // MARK: - Public API
+    
     /// Add element to the canvas.
-    func addElement(_ element: GFElement, at position: CGPoint) {
-        guard let _ = editorView else { return }
-        
+    public func addElement(_ element: GFElement, atCenter center: CGPoint, autoSelect: Bool = true) {
         addSubview(element)
         element.layoutInitialize()
-        element.center = position
+        element.center = center
+        editor.canvasDidChange()
+        if autoSelect {
+            editor.selection.selectElement(element)
+        }
+        print("Added element with id: \(element.id)")
+    }
+    
+    public func addElement(_ element: GFElement, atOrigin origin: CGPoint, withSize size: CGSize? = nil, autoSelect: Bool = true) {
+        addSubview(element)
+        element.layoutInitialize()
+        element.position = origin
+        if let size = size {
+            element.size = size
+        }
+        editor.canvasDidChange()
+        if autoSelect {
+            editor.selection.selectElement(element)
+        }
+        print("Added element with id: \(element.id)")
+    }
+    
+    public func addElement(_ element: GFElement, autoSelect: Bool = true) {
+        addSubview(element)
+        element.layoutInitialize()
+        editor.canvasDidChange()
+        if autoSelect {
+            editor.selection.selectElement(element)
+        }
+        print("Added element with id: \(element.id)")
+    }
+    
+    @discardableResult public func addElement(from serializedElement: GFCodableElement, autoSelect: Bool = true) -> GFElement? {
+        guard let element = GFElement.create(from: serializedElement, canvas: self) else {
+            print("Error adding element from serialized element:\n \(serializedElement)")
+            return nil
+        }
+        
+        addElement(element, atOrigin: serializedElement.position, withSize: serializedElement.size, autoSelect: autoSelect)
+        return element
     }
     
     /// Remove element from the canvas.
-    func removeElement(_ element: GFElement) {
+    public func removeElement(_ element: GFElement) {
+        elements.removeAll(where: { $0 == element })
         element.removeFromSuperview()
+        editor.canvasDidChange()
+        editor.selection.deselectElement(element)
+        print("Removed element with id: \(element.id)")
+    }
+    
+    public func removeElement(withId id: String) {
+        if let element = findElement(withId: id) {
+            removeElement(element)
+        }
+    }
+    
+    public func findElement(withId id: String) -> GFElement? {
+        if canvasElement.id == id {
+            return canvasElement
+        }
+        
+        if let index = elements.firstIndex(where: { $0.id == id }) {
+            return elements[index]
+        }
+        return nil
     }
 }
