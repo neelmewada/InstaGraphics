@@ -34,6 +34,8 @@ public class GFActionManager {
     // MARK: - Private Methods
     
     private func updateElements(_ input: [GFElement], _ output: [GFElement]) {
+        print("updateElements: \(input) \n \(output)")
+        
         for element in input {
             if !output.contains(where: { $0.id == element.id }) { // if the element was deleted
                 canvas.removeElement(element) // then remove it

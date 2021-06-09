@@ -214,7 +214,7 @@ public class GFCanvas: GFView {
     
     @discardableResult public func addElement(from serializedElement: GFCodableElement, autoSelect: Bool = true) -> GFElement? {
         guard let element = GFElement.create(from: serializedElement, canvas: self) else {
-            print("Error adding element from serialized element:\n \(serializedElement)")
+            print("Error creating element from serialized element:\n \(serializedElement)")
             return nil
         }
         

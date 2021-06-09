@@ -57,6 +57,10 @@ public class GFOperationManager {
     // MARK: - Public Methods
     
     public func recordOperation(_ initialState: [GFCodableElement], _ finalState: [GFCodableElement]) {
+        if currentOperation < operationStack.count - 1 {
+            operationStack.removeSubrange((currentOperation + 1)..<operationStack.count)
+        }
+        
         let operation = GFOperation(initialState, finalState)
         pushOperation(operation)
         
@@ -99,7 +103,30 @@ public class GFOperationManager {
             return
         }
         
+        let operation = operationStack[currentOperation + 1]
+        currentOperation += 1
         
+        for serializedElement in operation.initialState {
+            // if element exists both in initial & final state
+            if let index = operation.finalState.firstIndex(where: { $0.id == serializedElement.id }) { // then configure it to final state
+                let element = editor.findElement(withId: serializedElement.id)
+                element!.configure(from: operation.finalState[index])
+            } else { // element exists in initial state but NOT in final
+                print("CALL remove element with id: \(serializedElement.id)")
+                canvas.removeElement(withId: serializedElement.id) // delete it
+            }
+        }
+        
+        for serializedElement in operation.finalState {
+            // if element exists in final state but NOT in initial state
+            if operation.initialState.allSatisfy({ $0.id != serializedElement.id }) { // then add it
+                canvas.addElement(from: serializedElement)
+            }
+        }
+        
+        print("Redo performed. Redos remaining: \(redosRemaining)")
+        
+        editor.layoutUpdate()
     }
 }
 
