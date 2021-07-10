@@ -51,17 +51,17 @@ extension UIView {
         }
     }
     
-    func anchorConstraints(top: NSLayoutYAxisAnchor? = nil,
-                           left: NSLayoutXAxisAnchor? = nil,
-                           bottom: NSLayoutYAxisAnchor? = nil,
-                           right: NSLayoutXAxisAnchor? = nil,
-                           spacingTop: CGFloat = 0,
-                           spacingLeft: CGFloat = 0,
-                           spacingBottom: CGFloat = 0,
-                           spacingRight: CGFloat = 0,
-                           width: CGFloat? = nil,
-                           height: CGFloat? = nil,
-                           activateConstraints: Bool = true) -> [NSLayoutConstraint] {
+    func anchors(top: NSLayoutYAxisAnchor? = nil,
+                 left: NSLayoutXAxisAnchor? = nil,
+                 bottom: NSLayoutYAxisAnchor? = nil,
+                 right: NSLayoutXAxisAnchor? = nil,
+                 spacingTop: CGFloat = 0,
+                 spacingLeft: CGFloat = 0,
+                 spacingBottom: CGFloat = 0,
+                 spacingRight: CGFloat = 0,
+                 width: CGFloat? = nil,
+                 height: CGFloat? = nil,
+                 activateConstraints: Bool = true) -> [NSLayoutConstraint] {
         var constraints = [NSLayoutConstraint]()
         
         translatesAutoresizingMaskIntoConstraints = false

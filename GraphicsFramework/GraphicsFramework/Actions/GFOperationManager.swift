@@ -63,8 +63,6 @@ public class GFOperationManager {
         
         let operation = GFOperation(initialState, finalState)
         pushOperation(operation)
-        
-        print("Recorded operation. Undos = \(undosRemaining) ; Redos = \(redosRemaining)")
     }
     
     public func undoOperation() {
@@ -82,7 +80,7 @@ public class GFOperationManager {
                 let element = editor.findElement(withId: serializedElement.id)
                 element!.configure(from: serializedElement)
             } else { // if element exists in initial state, but doesn't exist in final state, i.e. it was deleted
-                canvas.addElement(from: serializedElement) // re-add it
+                canvas.addElement(from: serializedElement, autoSelect: false) // re-add it
             }
         }
         
@@ -92,8 +90,6 @@ public class GFOperationManager {
                 canvas.removeElement(withId: serializedElement.id)
             }
         }
-        
-        print("Undo performed. Undos remaining: \(undosRemaining)")
         
         editor.layoutUpdate()
     }
@@ -112,7 +108,6 @@ public class GFOperationManager {
                 let element = editor.findElement(withId: serializedElement.id)
                 element!.configure(from: operation.finalState[index])
             } else { // element exists in initial state but NOT in final
-                print("CALL remove element with id: \(serializedElement.id)")
                 canvas.removeElement(withId: serializedElement.id) // delete it
             }
         }
@@ -120,11 +115,9 @@ public class GFOperationManager {
         for serializedElement in operation.finalState {
             // if element exists in final state but NOT in initial state
             if operation.initialState.allSatisfy({ $0.id != serializedElement.id }) { // then add it
-                canvas.addElement(from: serializedElement)
+                canvas.addElement(from: serializedElement, autoSelect: false)
             }
         }
-        
-        print("Redo performed. Redos remaining: \(redosRemaining)")
         
         editor.layoutUpdate()
     }

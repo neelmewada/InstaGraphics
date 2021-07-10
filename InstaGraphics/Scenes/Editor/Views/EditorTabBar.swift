@@ -56,8 +56,8 @@ class EditorTabBar: UIView {
         isShown = false
         
         addSubview(stackView)
-        compactConstraints.append(contentsOf: stackView.anchorConstraints(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, spacingLeft: 20, spacingBottom: 36, spacingRight: 20, activateConstraints: false))
-        regularConstraints.append(contentsOf: stackView.anchorConstraints(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, spacingLeft: 74, spacingBottom: 36, spacingRight: 74, activateConstraints: false))
+        compactConstraints.append(contentsOf: stackView.anchors(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, spacingLeft: 20, spacingBottom: 36, spacingRight: 20, activateConstraints: false))
+        regularConstraints.append(contentsOf: stackView.anchors(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, spacingLeft: 74, spacingBottom: 36, spacingRight: 74, activateConstraints: false))
         stackView.setHeight(height: 56)
         
         for item in tabItems {

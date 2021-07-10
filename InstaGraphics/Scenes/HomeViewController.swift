@@ -66,7 +66,7 @@ class HomeViewController: UIViewController {
         }
         let document = GFDocument.create(withResolution: CGSize(width: width, height: height))
         let editingVC = EditingViewController(document)
-        AppUtils.pushVCToNavigation(editingVC)
+        navigationController?.pushViewController(editingVC, animated: true)
     }
     
     // MARK: - Actions
