@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 // MARK: - GFAction Protocol
 
 @objc public protocol GFAction: AnyObject {
@@ -17,22 +18,60 @@ import UIKit
     
 }
 
+// MARK: - Custom Action
+
+@objc
+public class GFActionCustom: NSObject, GFAction {
+    public init(_ action: @escaping ([GFElement]) -> [GFElement]) {
+        self.action = action
+        super.init()
+    }
+    
+    public var action: (([GFElement]) -> [GFElement])? = nil
+    
+    public func isValid(on elements: [GFElement]) -> Bool {
+        return true
+    }
+    
+    public func perform(on elements: [GFElement]) -> [GFElement] {
+        return action?(elements) ?? elements
+    }
+}
+
+// MARK: - No Action
+
+@objc
+public class GFActionNone: NSObject, GFAction {
+    public override init() {
+        super.init()
+    }
+    
+    public func isValid(on elements: [GFElement]) -> Bool {
+        return false
+    }
+    
+    public func perform(on elements: [GFElement]) -> [GFElement] {
+        return elements
+    }
+}
+
 // MARK: - Translate Action
 
-@objc public class GFActionTranslate: NSObject, GFAction {
+@objc
+public class GFActionTranslate: NSObject, GFAction {
     public override init() {
         super.init()
     }
     
     public var byDistance: CGPoint = .zero
     
-    @objc public func isValid(on elements: [GFElement]) -> Bool {
+    public func isValid(on elements: [GFElement]) -> Bool {
         return elements.allSatisfy { element in
             element.type != .none && element.type != .canvas
         }
     }
     
-    @objc public func perform(on elements: [GFElement]) -> [GFElement] {
+    public func perform(on elements: [GFElement]) -> [GFElement] {
         for element in elements {
             element.position += byDistance
         }
@@ -42,7 +81,8 @@ import UIKit
 
 // MARK: - Duplicate Action
 
-@objc public class GFActionDuplicate: NSObject, GFAction {
+@objc
+public class GFActionDuplicate: NSObject, GFAction {
     public override init() {
         super.init()
     }
@@ -87,7 +127,8 @@ import UIKit
 
 // MARK: - Delete Action
 
-@objc public class GFActionDelete: NSObject, GFAction {
+@objc
+public class GFActionDelete: NSObject, GFAction {
     public override init() {
         super.init()
     }
@@ -105,6 +146,7 @@ import UIKit
 
 // MARK: - SetFontSize Action
 
+@objc
 public class GFActionSetFontSize: NSObject, GFAction {
     public override init() {
         super.init()

@@ -51,6 +51,7 @@ extension UIView {
         }
     }
     
+    @discardableResult
     func anchors(top: NSLayoutYAxisAnchor? = nil,
                  left: NSLayoutXAxisAnchor? = nil,
                  bottom: NSLayoutYAxisAnchor? = nil,
@@ -59,6 +60,10 @@ extension UIView {
                  spacingLeft: CGFloat = 0,
                  spacingBottom: CGFloat = 0,
                  spacingRight: CGFloat = 0,
+                 centerX: NSLayoutXAxisAnchor? = nil,
+                 centerXOffset: CGFloat = 0,
+                 centerY: NSLayoutYAxisAnchor? = nil,
+                 centerYOffset: CGFloat = 0,
                  width: CGFloat? = nil,
                  height: CGFloat? = nil,
                  activateConstraints: Bool = true) -> [NSLayoutConstraint] {
@@ -80,6 +85,14 @@ extension UIView {
         
         if let right = right {
             constraints.append(rightAnchor.constraint(equalTo: right, constant: -spacingRight))
+        }
+        
+        if let centerX = centerX {
+            constraints.append(centerXAnchor.constraint(equalTo: centerX, constant: centerXOffset))
+        }
+        
+        if let centerY = centerY {
+            constraints.append(centerYAnchor.constraint(equalTo: centerY, constant: centerYOffset))
         }
         
         if let width = width {
@@ -173,11 +186,20 @@ extension UIView {
     }
     
     /// Make this view fill the entire superview perfectly. It modifies top, left, bottom and right anchor constraints.
-    func fillSuperview() {
+    func fillSuperview(insets: [Inset] = []) {
         translatesAutoresizingMaskIntoConstraints = false
         guard let view = superview else { return }
+        var leftOffset: CGFloat = 0
+        var rightOffset: CGFloat = 0
+        var topOffset: CGFloat = 0
+        var bottomOffset: CGFloat = 0
+        for inset in insets {
+            (topOffset, leftOffset, bottomOffset, rightOffset) = inset.getEdgeInsets()
+        }
         anchor(top: view.topAnchor, left: view.leftAnchor,
-               bottom: view.bottomAnchor, right: view.rightAnchor)
+               bottom: view.bottomAnchor, right: view.rightAnchor,
+               spacingTop: topOffset, spacingLeft: leftOffset,
+               spacingBottom: bottomOffset, spacingRight: rightOffset)
     }
     
     /// Make this view fill the entire superview according to the safeAreaLayoutGuide. It modifies top, left, bottom and right anchor constraints.
@@ -186,6 +208,37 @@ extension UIView {
         guard let view = superview else { return }
         anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.safeAreaLayoutGuide.leftAnchor,
                bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.safeAreaLayoutGuide.rightAnchor)
+    }
+    
+    func removeAllConstraints() {
+        NSLayoutConstraint.deactivate(constraints)
+    }
+    
+    enum Inset {
+        case top(CGFloat)
+        case left(CGFloat)
+        case bottom(CGFloat)
+        case right(CGFloat)
+        case vertical(CGFloat)
+        case horizontal(CGFloat)
+        case all(CGFloat)
+        
+        func getEdgeInsets() -> (top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) {
+            var leftOffset: CGFloat = 0
+            var rightOffset: CGFloat = 0
+            var topOffset: CGFloat = 0
+            var bottomOffset: CGFloat = 0
+            switch self {
+            case .top(let v): topOffset = v
+            case .left(let v): leftOffset = v
+            case .right(let v): rightOffset = v
+            case .bottom(let v): bottomOffset = v
+            case .all(let v): topOffset = v; leftOffset = v; rightOffset = v; bottomOffset = v
+            case .horizontal(let v): leftOffset = v; rightOffset = v
+            case .vertical(let v): topOffset = v; bottomOffset = v
+            }
+            return (topOffset, leftOffset, bottomOffset, rightOffset)
+        }
     }
 }
 

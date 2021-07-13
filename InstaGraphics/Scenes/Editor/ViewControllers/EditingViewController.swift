@@ -39,12 +39,19 @@ class EditingViewController: UIViewController {
     
     // MARK: - Properties
     
+    
+    
+    // MARK: - Views
+    
     private let editorView: GFEditorView
     
     private let editorPopupView = EditorTabBarPopupView(popupHeight: 730)
     
     private lazy var editorTabBar = EditorTabBar(delegate: self)
-    private lazy var editorToolBar = EditorToolBar(editor: editorView)
+    
+    private lazy var editorToolBar = EditorToolBar(editor: editorView, popup: editorToolBarPopup)
+    private lazy var editorToolBarPopup = EditorToolBarPopup()
+    
     private let editorTopBar = EditorTopBar()
     
     private let bottomGradient: UIView = {
@@ -67,8 +74,11 @@ class EditingViewController: UIViewController {
         bottomGradient.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
         
         view.addSubview(editorToolBar)
-        editorToolBar.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, spacingLeft: 20, spacingBottom: 130, spacingRight: 20, height: 75)
+        editorToolBar.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor,
+                             spacingLeft: 20, spacingBottom: 130, spacingRight: 20, height: 75)
         editorToolBar.delegate = self
+        
+        view.addSubview(editorToolBarPopup)
         
         view.addSubview(editorTabBar)
         editorTabBar.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, height: 100)
@@ -91,7 +101,7 @@ class EditingViewController: UIViewController {
     /// Called on viewWillAppear.
     override func configureAfterLayout() {
         let gradientLayer = CAGradientLayer()
-        let color = kPrimaryBlackColor
+        let color = UIColor.brandBlack
         gradientLayer.colors = [color.withAlphaComponent(0).cgColor, color.withAlphaComponent(0.5).cgColor, color.withAlphaComponent(1.0).cgColor]
         gradientLayer.locations = [0, 0.2, 0.6]
         let size = bottomGradient.layer.frame.size
@@ -105,6 +115,14 @@ class EditingViewController: UIViewController {
     
     func configureData() {
         
+    }
+    
+    func showPhotoPopupView() {
+        let contentView = EditorTabBarPhotosView()
+        editorPopupView.setContentView(contentView)
+        editorPopupView.showAnimated()
+        contentView.delegate = self
+        contentView.loadInitialData()
     }
     
     func hidePopupView() {
@@ -185,6 +203,7 @@ extension EditingViewController: GFEditorViewDelegate {
 // MARK: - EditorTabBarPhotosViewDelegate
 
 extension EditingViewController: EditorTabBarPhotosViewDelegate {
+    
     func editorTabBarPhotosView(_ view: EditorTabBarPhotosView, didTapOnPhoto photo: GFCodableImage) {
         hidePopupView()
         editorView.addImageElement(withImage: photo)
@@ -202,13 +221,9 @@ extension EditingViewController: GFSelectionDelegate {
     func selection(_ selection: GFSelection, didChangeFrom initialSelection: [GFElement], to finalSelection: [GFElement]) {
         if let selectedElement = selection.selection, selection.isActive,
            let context = selectedElement as? EditorToolBarContext {
-            print("Context casted successfully for element: \(selectedElement)")
             editorToolBar.configure(context)
             editorToolBar.show()
-        } else {
-            if let selectedElement = selection.selection {
-                print("FAILED to cast context for element: \(selectedElement)")
-            }
+        } else { // failed to cast context
             editorToolBar.hide()
         }
     }
@@ -222,7 +237,12 @@ extension EditingViewController: GFSelectionDelegate {
 
 extension EditingViewController: EditorToolBarDelegate {
     
-    
+    func editorToolBarRequestsPhotoPicker(_ toolBar: EditorToolBar, for elements: [GFElement]) {
+        let photoPickerView = EditorPhotoPickerSlideUpView(popupHeight: 730)
+        view.addSubview(photoPickerView)
+        photoPickerView.show()
+        
+    }
     
 }
 

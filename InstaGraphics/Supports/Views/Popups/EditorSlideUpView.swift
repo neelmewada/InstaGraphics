@@ -1,14 +1,13 @@
 //
-//  EditorTabBarPopupView.swift
+//  EditorSlideUpView.swift
 //  InstaGraphics
 //
-//  Created by Neel Mewada on 16/05/21.
+//  Created by Neel Mewada on 12/07/21.
 //
 
 import UIKit
-import GraphicsFramework
 
-class EditorTabBarPopupView: UIView {
+class EditorSlideUpView: UIView {
     // MARK: - Lifecycle
     
     init(popupHeight: CGFloat) {
@@ -20,27 +19,6 @@ class EditorTabBarPopupView: UIView {
     required init?(coder: NSCoder) { return nil }
     
     // MARK: - Properties
-    
-    private let gradientView: UIView = {
-        let view = UIView()
-        view.setHeight(height: 100)
-        return view
-    }()
-    
-    public lazy var containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.brandBlack
-        let layer = CAShapeLayer()
-        layer.fillColor = UIColor.brandGray.cgColor
-        let width: CGFloat = 64
-        layer.path = UIBezierPath(roundedRect: CGRect(x: AppUtils.orientationWidth / 2 - width / 2, y: 4, width: width, height: 4), cornerRadius: 2).cgPath
-        view.layer.addSublayer(layer)
-        return view
-    }()
-    
-    private let contentView = UIView()
-    
-    public var editorPopupItemView: EditorPopupContentView? = nil
     
     public var popupHeight: CGFloat
     
@@ -72,8 +50,9 @@ class EditorTabBarPopupView: UIView {
         addGestureRecognizer(panGesture)
     }
     
-    /// Call this function just after the frame of `this` view is set.
-    func configureOnFrameSet() {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
         let gradientLayer = CAGradientLayer()
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
@@ -86,51 +65,51 @@ class EditorTabBarPopupView: UIView {
         gradientLayer.frame = gradientView.frame
         gradientView.layer.addSublayer(gradientLayer)
         
-        editorPopupItemView?.configureOnLayout()
-        
         showPos = self.frame.origin.y - self.popupHeight
         hidePos = self.frame.origin.y
     }
     
     // MARK: - Methods
     
-    public func setContentView(_ contentView: EditorPopupContentView) {
-        self.editorPopupItemView = contentView
-        self.contentView.addSubview(contentView)
-        contentView.fillSuperview()
-    }
-    
-    public func showAnimated() {
+    func show() {
+        if isShown { return }
+        
+        layer.removeAllAnimations()
+        
         isShown = true
         UIView.animate(withDuration: 0.5, delay: 0) {
             self.frame.origin.y = self.showPos
         }
     }
     
-    public func hideAnimated() {
+    func hide() {
+        if !isShown { return }
+        
+        layer.removeAllAnimations()
+        
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.1) {
             self.frame.origin.y = self.hidePos
         } completion: { _ in
             self.isShown = false
-            self.editorPopupItemView?.removeFromSuperview()
-            self.editorPopupItemView = nil
         }
     }
     
     // MARK: - Actions
     
-    @objc private func handleTap(_ tapGesture: UITapGestureRecognizer) {
+    @objc
+    private func handleTap(_ tapGesture: UITapGestureRecognizer) {
         self.endEditing(true)
     }
     
-    @objc private func handlePan(_ panGesture: UIPanGestureRecognizer) {
+    @objc
+    private func handlePan(_ panGesture: UIPanGestureRecognizer) {
         let translation = panGesture.translation(in: self)
         
         if panGesture.state == .ended || panGesture.state == .cancelled {
             if panDirection < 0 && translation.y < 150 {
-                showAnimated()
+                show()
             } else {
-                hideAnimated()
+                hide()
             }
             return
         }
@@ -142,4 +121,25 @@ class EditorTabBarPopupView: UIView {
             prevTranslationY = translation.y
         }
     }
+    
+    // MARK: - Views
+    
+    let contentView = UIView()
+    
+    private let gradientView: UIView = {
+        let view = UIView()
+        view.setHeight(height: 100)
+        return view
+    }()
+    
+    private let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.brandBlack
+        let layer = CAShapeLayer()
+        layer.fillColor = UIColor.brandGray.cgColor
+        let width: CGFloat = 64
+        layer.path = UIBezierPath(roundedRect: CGRect(x: AppUtils.orientationWidth / 2 - width / 2, y: 4, width: width, height: 4), cornerRadius: 2).cgPath
+        view.layer.addSublayer(layer)
+        return view
+    }()
 }

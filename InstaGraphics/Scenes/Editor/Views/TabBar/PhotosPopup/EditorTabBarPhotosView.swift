@@ -20,7 +20,7 @@ class EditorTabBarPhotosView: UIView, EditorPopupContentView {
     
     // MARK: - Properties
     
-    private let searchView = EditorTabBarPopupView.SearchView()
+    private let searchView = EditorTabBarPopupSearchField()
     
     private let attributionLabel: UILabel = {
         let label = UILabel()
@@ -36,7 +36,7 @@ class EditorTabBarPhotosView: UIView, EditorPopupContentView {
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return view
     }()
-        
+    
     public weak var delegate: EditorTabBarPhotosViewDelegate? = nil
     
     private var photoService: PhotoProviderService = PexelsPhotoProviderService()
@@ -105,7 +105,6 @@ class EditorTabBarPhotosView: UIView, EditorPopupContentView {
         } else {
             return // No need to fire multiple requests for a single page.
         }
-        print("Loading page \(page)")
         
         // Load placeholder/empty images to fill the spots temporarily.
         self.images[page] = [GFCodableImage](repeating: .empty, count: Self.imagesPerPage)

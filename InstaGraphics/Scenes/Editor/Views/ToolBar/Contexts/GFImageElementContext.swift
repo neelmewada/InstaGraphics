@@ -13,8 +13,20 @@ import GraphicsFramework
 // ToolBar Context used when an image element is selected
 extension GFImageElement: EditorToolBarContext {
     
-    @objc func createToolBarItems() -> [EditorToolBarItem] {
-        return super.createDefaultToolBarItems()
+    @objc
+    func createToolBarItems(_ toolBar: EditorToolBar) -> [EditorToolBarItem] {
+        var items = super.createDefaultToolBarItems()
+        
+        let imageItem = EditorToolBarItem(icon: UIImage(named: "image-icon"),
+                                          tintColor: .white,
+                                          action: GFActionCustom({ input in
+                                            toolBar.showPhotoPickerPopup(for: input)
+                                            return input
+                                          }))
+        imageItem.popupControls(.label("Replace Image"))
+        items.append(imageItem)
+        
+        return items
     }
     
 }

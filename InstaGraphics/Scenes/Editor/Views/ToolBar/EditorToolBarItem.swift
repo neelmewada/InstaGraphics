@@ -11,17 +11,32 @@ import GraphicsFramework
 final class EditorToolBarItem: NSObject {
     var icon: UIImage?
     var tintColor: UIColor
-    var attributes: [Attribute]
     var action: GFAction
+    var popupConfig: EditorToolBarPopup.Configuration
+    var tapBehaviour: TapBehaviour
     
-    typealias Attribute = EditorToolBarPopupAttribute
-    //typealias PopupConfig = EditorToolBarPopupView.Configuration
+    enum TapBehaviour {
+        case openPopup
+        case performAction
+    }
     
-    public init(icon: UIImage?, tintColor: UIColor, attrs: [Attribute], action: GFAction) {
+    var controls: [EditorToolBarPopup.ControlBuilder] = []
+    
+    init(icon: UIImage?,
+         tintColor: UIColor,
+         action: GFAction,
+         tapBehaviour: TapBehaviour = .performAction,
+         popupConfig: EditorToolBarPopup.Configuration = .init()) {
+        
         self.icon = icon
         self.tintColor = tintColor
-        self.attributes = attrs
         self.action = action
+        self.popupConfig = popupConfig
+        self.tapBehaviour = tapBehaviour
+    }
+    
+    func popupControls(_ builder: EditorToolBarPopup.ControlBuilder...) {
+        self.controls = builder
     }
 }
 
@@ -31,17 +46,20 @@ final class EditorToolBarItem: NSObject {
 extension EditorToolBarItem {
     
     static var deleteItem: EditorToolBarItem {
-        return EditorToolBarItem(icon: UIImage(named: "delete-icon"),
-                                 tintColor: kPrimaryRedColor,
-                                 attrs: [.minWidth],
-                                 action: GFActionDelete())
+        let item = EditorToolBarItem(icon: UIImage(named: "delete-icon"),
+                                     tintColor: .brandRedDelete,
+                                     action: GFActionDelete(),
+                                     tapBehaviour: .openPopup)
+        item.popupControls(.label("Delete", color: .brandRedDelete))
+        return item
     }
     
     static var duplicateItem: EditorToolBarItem {
-        return EditorToolBarItem(icon: UIImage(named: "duplicate-icon"),
-                                 tintColor: .white,
-                                 attrs: [.minWidth],
-                                 action: GFActionDuplicate())
+        let item = EditorToolBarItem(icon: UIImage(named: "duplicate-icon"),
+                                     tintColor: .white,
+                                     action: GFActionDuplicate())
+        item.popupControls(.label("Duplicate"))
+        return item
     }
     
 }

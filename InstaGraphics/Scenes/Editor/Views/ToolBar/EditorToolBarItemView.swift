@@ -23,7 +23,10 @@ class EditorToolBarItemView: UIView {
     
     private weak var toolBar: EditorToolBar!
     
-    private var item: EditorToolBarItem? = nil
+    private(set) var item: EditorToolBarItem? = nil
+    
+    private var longPressGesture: UILongPressGestureRecognizer!
+    private var tapGesture: UITapGestureRecognizer!
     
     // MARK: - Configuration
     
@@ -39,10 +42,10 @@ class EditorToolBarItemView: UIView {
         
         self.isUserInteractionEnabled = true
         
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         addGestureRecognizer(longPressGesture)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         addGestureRecognizer(tapGesture)
         
         tapGesture.require(toFail: longPressGesture)
@@ -55,12 +58,23 @@ class EditorToolBarItemView: UIView {
     
     // MARK: - Actions
     
+    func discardGestures() {
+        longPressGesture.state = .cancelled
+        tapGesture.state = .cancelled
+        selectorBackground.alpha = 0
+    }
+    
     @objc private func handleLongPress(_ longPressGesture: UILongPressGestureRecognizer) {
         
         if longPressGesture.state == .began { // START
-            print("Long Pressed")
             
-            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+            //if !toolBar.showPopup(for: self) { // cancel gesture if we can't show the popup
+            if !toolBar.processLongPress(on: self) { // cancel gesture if long press is invalid
+                longPressGesture.state = .cancelled
+                return
+            }
+            
+            UISelectionFeedbackGenerator().selectionChanged()
             
             UIView.animate(withDuration: 0.1) {
                 self.selectorBackground.alpha = 1
@@ -73,12 +87,19 @@ class EditorToolBarItemView: UIView {
             UIView.animate(withDuration: 0.1) {
                 self.selectorBackground.alpha = 0
             }
+            
+            toolBar.hidePopup()
         }
     }
     
     @objc private func handleTap(_ tapGesture: UITapGestureRecognizer) {
-        guard let item = item else { return }
-        toolBar.performAction(item.action)
+        toolBar.processTap(on: self)
+    }
+    
+    // MARK: - Methods
+    
+    private func showPopup() {
+        
     }
     
     // MARK: - Views

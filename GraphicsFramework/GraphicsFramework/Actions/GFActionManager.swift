@@ -34,7 +34,6 @@ public class GFActionManager {
     // MARK: - Private Methods
     
     private func updateElements(_ input: [GFElement], _ output: [GFElement]) {
-        print("updateElements: \(input) \n \(output)")
         
         for element in input {
             if !output.contains(where: { $0.id == element.id }) { // if the element was deleted
@@ -44,7 +43,7 @@ public class GFActionManager {
         
         for element in output {
             if !input.contains(where: { $0.id == element.id }) { // if a new element was created
-                canvas.addElement(element) // then add it
+                canvas.addElement(element, autoSelect: false) // then add it
             }
         }
     }
@@ -58,6 +57,7 @@ public class GFActionManager {
         
         // if we're recording, and an element in elements array isn't being recorded, then return
         if isRecording && elements.contains(where: { !recordedElements.contains($0) }) {
+            print("WARNING: An unrecorded element is passed in performAction(_:on:) while in recording state.")
             return
         }
         
@@ -71,8 +71,8 @@ public class GFActionManager {
                     self.currentState.append(element.serializedValue)
                 }
             }
-            updateElements(input, output)
-            return // Don't record the states & operation if we're already in recording mode
+            updateElements(input, output) // update to apply new or deleted elements
+            return // Don't record the operation to stack if we're already in recording mode
         }
         
         let input = elements
@@ -94,10 +94,7 @@ public class GFActionManager {
             return
         }
         
-        self.initialState = elements.compactMap{ $0.serializedValue }
-        
-        print("Recording START. count: \(initialState.count)")
-        print("\(initialState)")
+        self.initialState = elements.map{ $0.serializedValue }
         
         self.recordedElements = elements
     }
@@ -107,16 +104,13 @@ public class GFActionManager {
             return
         }
         
-        var finalState = recordedElements.compactMap{ $0.serializedValue }
+        var finalState = recordedElements.map{ $0.serializedValue }
         
         for element in currentState {
             if !finalState.contains(where: { $0.id == element.id }) {
                 finalState.append(element)
             }
         }
-        
-        print("Recording END. count: \(finalState.count)")
-        print("\(finalState)")
         
         editor.operationManager.recordOperation(initialState, finalState)
         

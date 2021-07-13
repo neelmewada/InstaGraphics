@@ -92,6 +92,10 @@ public class GFEditorView: UIView, GFSelectionDelegate {
         delegate?.editorViewDidChange?(self)
     }
     
+    public func editorViewDidChange() {
+        delegate?.editorViewDidChange?(self)
+    }
+    
     @objc private func handlePan(_ recognizer: UIPanGestureRecognizer) {
         if recognizer.state == .began {
             let locationInSelection = recognizer.location(in: selection)
@@ -305,7 +309,7 @@ extension GFEditorView {
         imageSize.height = imageSize.width / imageAspectRatio
         
         print("Adding image: \(imageSize) ; \(canvas.originalFrame.size)")
-        imageElement.configure(withImage: image, size: imageSize, contentMode: .scaleAspectFill)
+        imageElement.configure(with: image, size: imageSize, contentMode: .scaleAspectFill)
         
         addElement(imageElement)
     }
@@ -352,7 +356,7 @@ extension GFEditorView {
         imageSize.height = imageSize.width / imageAspectRatio
         
         print("Adding image: \(imageSize) ; \(canvas.originalFrame.size)")
-        imageElement.configure(withImage: image, size: imageSize, contentMode: .scaleAspectFill)
+        imageElement.configure(with: image, size: imageSize, contentMode: .scaleAspectFill)
         
         addElement(imageElement)
     }

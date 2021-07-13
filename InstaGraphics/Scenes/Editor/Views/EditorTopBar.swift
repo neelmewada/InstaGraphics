@@ -52,7 +52,7 @@ class EditorTopBar: UIView {
     }
     
     func configureOnAppear() {
-        let color = kPrimaryBlackColor
+        let color = UIColor.brandBlack
         
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [color.withAlphaComponent(1).cgColor, color.withAlphaComponent(0).cgColor]

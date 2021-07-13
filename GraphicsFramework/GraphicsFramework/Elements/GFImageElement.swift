@@ -40,7 +40,8 @@ public class GFImageElement: GFElement {
         
     }
     
-    @discardableResult public override func configure(from serializedElement: GFCodableElement) -> Bool {
+    @discardableResult
+    public override func configure(from serializedElement: GFCodableElement) -> Bool {
         if serializedElement.elementType != .image {
             return false
         }
@@ -58,10 +59,10 @@ public class GFImageElement: GFElement {
     }
     
     public func configure(_ config: Configuration) {
-        self.configure(withImage: config.image, size: config.size, contentMode: ContentMode(rawValue: config.contentMode) ?? .scaleAspectFill)
+        self.configure(with: config.image, size: config.size, contentMode: ContentMode(rawValue: config.contentMode) ?? .scaleAspectFill)
     }
     
-    public func configure(withImage image: GFCodableImage, size: CGSize, contentMode: ContentMode) {
+    public func configure(with image: GFCodableImage, size: CGSize, contentMode: ContentMode) {
         guard let canvas = canvas else { return }
         
         let width = size.width * canvas.resolutionFactor.width

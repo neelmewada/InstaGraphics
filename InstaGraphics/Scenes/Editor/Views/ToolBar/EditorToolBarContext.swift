@@ -8,15 +8,15 @@
 import UIKit
 import GraphicsFramework
 
+/// The context object used by EditorToolBar to populate it's items and other info.
 @objc protocol EditorToolBarContext {
     
-    @objc func createToolBarItems() -> [EditorToolBarItem]
+    @objc func createToolBarItems(_ toolBar: EditorToolBar) -> [EditorToolBarItem]
     
 }
 
-// MARK: - GFElement Context
 
-/// The ToolBar context for GFElement base class.
+/// The default ToolBar items for every element.
 extension GFElement {
     
     @objc func createDefaultToolBarItems() -> [EditorToolBarItem] {
@@ -32,10 +32,6 @@ extension GFElement {
         
         // Duplicate Item
         if self.type != .canvas {
-            items.append(.duplicateItem)
-        }
-        
-        for _ in 1...5 {
             items.append(.duplicateItem)
         }
         

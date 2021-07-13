@@ -11,8 +11,9 @@ import GraphicsFramework
 class EditorToolBar: UIView {
     // MARK: - Lifecycle
     
-    init(editor: GFEditorView) {
+    init(editor: GFEditorView, popup: EditorToolBarPopup) {
         self.editor = editor
+        self.popupView = popup
         super.init(frame: .zero)
         configureView()
     }
@@ -29,7 +30,9 @@ class EditorToolBar: UIView {
     
     public private(set) var context: EditorToolBarContext? = nil
     
-    private weak var editor: GFEditorView!
+    private(set) weak var editor: GFEditorView!
+    
+    private weak var popupView: EditorToolBarPopup!
     
     /// List of currently visible ToolBar Items.
     private var toolBarItems: [EditorToolBarItem] = []
@@ -49,8 +52,8 @@ class EditorToolBar: UIView {
         scrollView.addSubview(stackView)
         stackView.fillSuperview()
         
-        // Hide tab bar initially
-        self.alpha = 0.0
+        // Hide tool bar initially
+        self.alpha = 0
         self.transform = transform.scaledBy(x: 0.5, y: 0.5).translatedBy(x: 0, y: 80)
         isHidden = true
     }
@@ -65,7 +68,7 @@ class EditorToolBar: UIView {
             view.removeFromSuperview()
         }
         
-        let items = context.createToolBarItems()
+        let items = context.createToolBarItems(self)
         
         for item in items {
             let itemView = EditorToolBarItemView(toolBar: self)
@@ -82,11 +85,48 @@ class EditorToolBar: UIView {
     
     // MARK: - Actions
     
-    func performAction(_ action: GFAction) {
-        editor.performActionOnSelection(action)
+    func showPhotoPickerPopup(for elements: [GFElement]) {
+        delegate?.editorToolBarRequestsPhotoPicker(self, for: elements)
     }
     
     // MARK: - Methods
+    
+    private func performAction(_ action: GFAction) {
+        editor.performActionOnSelection(action)
+    }
+    
+    @discardableResult
+    func processTap(on itemView: EditorToolBarItemView) -> Bool {
+        guard let item = itemView.item else { return false }
+        if popupView.isShown { return false }
+        if item.tapBehaviour == .performAction {
+            performAction(item.action)
+            return true
+        } else {
+            return showPopup(for: itemView)
+        }
+    }
+    
+    @discardableResult
+    func processLongPress(on itemView: EditorToolBarItemView) -> Bool {
+        if popupView.isShown {
+            popupView.targetItemView?.discardGestures()
+            popupView.hide()
+        }
+        return showPopup(for: itemView)
+    }
+    
+    @discardableResult
+    func showPopup(for itemView: EditorToolBarItemView) -> Bool {
+        guard let item = itemView.item else { return false }
+        popupView.configure(item.popupConfig, itemView: itemView, controls: item.controls)
+        popupView.show()
+        return true
+    }
+    
+    func hidePopup() {
+        popupView.hide()
+    }
     
     func show() {
         if isVisible {
@@ -108,6 +148,7 @@ class EditorToolBar: UIView {
         }
         
         isVisible = false
+        hidePopup()
         
         UIView.animate(withDuration: 0.25) {
             self.alpha = 0.0
@@ -178,7 +219,9 @@ class EditorToolBar: UIView {
 
 // MARK: - EditorToolBarDelegate
 
-@objc protocol EditorToolBarDelegate {
+
+protocol EditorToolBarDelegate: AnyObject {
     
+    func editorToolBarRequestsPhotoPicker(_ toolBar: EditorToolBar, for elements: [GFElement])
     
 }
